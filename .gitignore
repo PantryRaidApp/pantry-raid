@@ -53,4 +53,7 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
+compiler.xml
+misc.xml
 vcs.xml
+profiles_settings.xml
