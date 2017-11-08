@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="pewterBlue">#8EB1C7</color>
+    <color name="rust">#B02E0C</color>
+    <color name="oriolesOrange">#EB4511</color>
+    <color name="silver">#C1BFB5</color>
+    <color name="white">#FEFDFF</color>
 </resources>
