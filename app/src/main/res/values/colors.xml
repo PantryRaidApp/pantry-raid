@@ -4,4 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccent2">#FF4082</color>
+    <color name="colorAccentOther">#FF4097</color>
+
+    <color name="colorBackground">#8EB1C7</color>
+    <color name="colorTaskBar">#B02E0C</color>
+    <color name="colorFavoritesButton">#EB4511</color>
+    <color name="colorDarkText">#C1BFB5</color>
+    <color name="colorText">#FEFDFF</color>
+
+    <color name="aTestColor">#ABCDEF</color>
+
 </resources>
