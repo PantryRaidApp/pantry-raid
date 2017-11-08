@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Pantry Raid</string>
 
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="forgot_password_message">Please enter the code from your email.</string>
     <string name="verify_email_message">Please enter the verification code from your email.</string>
+=======
+>>>>>>> b6881489ecb168785ef12672f21768d524c3e136
 </resources>
