@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">hello</string>
     <string name="forgot_password_message">Enter the code from your email.</string>
     <string name="verify_email_message">Enter the code from your email.</string>
+    <string name="user_name_hint">User Name</string>
+    <string name="password_hint">Password</string>
+    <string name="renter_hint">Re-enter Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="forgot_link">Forgot Password</string>
 </resources>
