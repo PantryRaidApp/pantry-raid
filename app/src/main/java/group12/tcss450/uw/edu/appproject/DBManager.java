@@ -42,6 +42,12 @@ public class DBManager extends AsyncTask<String, Void, String> {
         return response.equals("found");
     }
 
+    public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBAdder();
+        String response = task.execute(user, pass).get();
+        return response.equals("found");
+    }
+
     /**
      * Returns a list of users.
      * @return A list of users.
@@ -79,6 +85,29 @@ public class DBManager extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             System.out.println("Error connecting to the database: "+ e);
             return "failure";
+        }
+    }
+    /**
+     * Adds a set of credentials to the DB.
+     */
+    private class DBAdder extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            if (strings.length < 2) {
+                throw new IllegalArgumentException("Need 2 arguments for DBAdder!");
+            }
+            String query = "INSERT INTO `User` VALUES (?, ?)";
+            try {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, strings[0]);
+                statement.setString(2, strings[1]);
+                ResultSet results = statement.executeQuery();
+                return "success";
+            } catch (SQLException e) {
+                System.out.println("Login error: " + e);
+                return "fail"; //error
+            }
         }
     }
 
