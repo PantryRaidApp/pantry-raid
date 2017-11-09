@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         db = new DBManager();
         try {
             Object result = db.execute().get(); //so the async task can finish
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //
+
+        if (savedInstanceState == null) {
+            if (findViewById(R.id.fragmentContainer) != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragmentContainer, new DisplayTopRecipesFragment()).commit();
+            }
+        }
+        
     }
 }
