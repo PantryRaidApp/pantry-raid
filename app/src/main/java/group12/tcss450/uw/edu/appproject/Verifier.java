@@ -8,17 +8,21 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Created by Admin on 11/9/2017.
+ * Handles the sending of email codes for verification purposes.
  */
-
 public class Verifier extends AsyncTask<String, Void, String> {
+    /**
+     * Sends an email with a random 5-digit code.
+     * @param strings The first string is the email to send the code to.
+     * @return The code that was sent to the user.
+     */
     @Override
     protected String doInBackground(String... strings) {
         if (strings.length < 1) {
             throw new IllegalArgumentException("Not enough arguments given to Verifier!");
         }
         try {
-            int code = (int)(Math.random() * 99999);
+            int code = (int)(Math.random() * 89999) + 10000;
             URL url = new URL("http://cssgate.insttech.washington.edu/~stanhu/verify.php");
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);

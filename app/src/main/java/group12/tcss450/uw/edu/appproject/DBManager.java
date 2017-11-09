@@ -13,9 +13,8 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Admin on 11/8/2017.
+ * Handles the connection to a database, and methods to query it.
  */
-
 public class DBManager extends AsyncTask<String, Void, String> {
 
     private static final Properties properties;
@@ -43,6 +42,10 @@ public class DBManager extends AsyncTask<String, Void, String> {
      * combo is valid.
      * Returns "found" is an entry is found, "not found" if not found, and "error"
      * if an error occurs.
+     * @param strings The credentials to check - up to 2, username and password.
+     * @throws ExecutionException If there is an error in execution.
+     * @throws InterruptedException If there is an error in execution.
+     * @return Whether or not the credentials exist in the database.
      */
     public boolean validCredentials(String... strings) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new CredentialChecker();
@@ -51,14 +54,15 @@ public class DBManager extends AsyncTask<String, Void, String> {
     }
 
     /**
-     * Adds the user to the database.
+     * Adds the user to the database. This does NOT check if the user already exists!
      * @param user The email of the user.
      * @param pass The password of the user.
+     * @return True if the user was successfully added.
      */
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBAdder();
         String response = task.execute(user, pass).get();
-        return response.equals("found");
+        return response.equals("success");
     }
 
     /**
@@ -88,6 +92,11 @@ public class DBManager extends AsyncTask<String, Void, String> {
         return sb.toString();
     }
 
+    /**
+     * Connects to the database.
+     * @param strings The arguments, which are irrelevant to this method.
+     * @return "success" if the database was successfully connected to.
+     */
     @Override
     protected String doInBackground(String... strings) {
         try {
@@ -105,6 +114,11 @@ public class DBManager extends AsyncTask<String, Void, String> {
      */
     private class DBAdder extends AsyncTask<String, Void, String> {
 
+        /**
+         * Adds the given set of credentials to the DB.
+         * @param strings The credentials to check (2 required).
+         * @return "success" if the add was successful.
+         */
         @Override
         protected String doInBackground(String... strings) {
             if (strings.length < 2) {
@@ -134,6 +148,11 @@ public class DBManager extends AsyncTask<String, Void, String> {
      */
     private class CredentialChecker extends AsyncTask<String, Void, String> {
 
+        /**
+         * Checks for the given credentials in the DB.
+         * @param strings The credentials to check - up to 2, username and password.
+         * @return "found" if they were found, false otherwise.
+         */
         @Override
         protected String doInBackground(String... strings) {
             if (strings.length == 0) {
