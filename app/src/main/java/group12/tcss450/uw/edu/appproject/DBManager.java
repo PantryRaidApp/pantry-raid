@@ -36,12 +36,25 @@ public class DBManager extends AsyncTask<String, Void, String> {
 
     public static Connection connection = null;
 
+    /**
+     * Returns whether or not the given credentials are valid.
+     * Can be called with 1 or 2 arguments, which are username and password
+     * respectively. Used to check if a username exists, or if a username/password
+     * combo is valid.
+     * Returns "found" is an entry is found, "not found" if not found, and "error"
+     * if an error occurs.
+     */
     public boolean validCredentials(String... strings) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new CredentialChecker();
         String response = task.execute(strings).get();
         return response.equals("found");
     }
 
+    /**
+     * Adds the user to the database.
+     * @param user The email of the user.
+     * @param pass The password of the user.
+     */
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBAdder();
         String response = task.execute(user, pass).get();

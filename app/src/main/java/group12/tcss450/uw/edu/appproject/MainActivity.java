@@ -18,6 +18,24 @@ public class MainActivity extends AppCompatActivity {
 
     private DBManager db;
 
+    private Verifier verifier;
+
+    /**
+     * Generates a 5-digit code and sends it to the given email address.
+     * @param email The email address to send the code to.
+     * @return The 5-digit code as a string, or null if there was an error.
+     */
+    public String generateCode(String email) {
+        try {
+            verifier = new Verifier();
+            String result = verifier.execute(email).get();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,15 +45,7 @@ public class MainActivity extends AppCompatActivity {
             Object result = db.execute().get(); //so the async task can finish
             Log.d("TEST", Boolean.toString(db.validCredentials("eeeshe", "wow")));
             Log.d("TEST", Boolean.toString(db.validCredentials("eeessdfsdhe", "wow")));
-            Intent intent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
-            intent.setType("message/rfc822");
-
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Subject of email");
-            intent.putExtra(Intent.EXTRA_TEXT,    "Body of email");
-            intent.setData(Uri.parse("hustanley@gmail.com")); // or just "mailto:" for blank
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            generateCode("hustanley@gmail.com");
         } catch (Exception e) {
             e.printStackTrace();
         }
