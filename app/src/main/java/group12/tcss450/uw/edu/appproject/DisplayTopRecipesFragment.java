@@ -48,9 +48,9 @@ public class DisplayTopRecipesFragment extends Fragment implements View.OnClickL
         myApiKey = getString(R.string.food2ForkKey);
         myApiCall = "http://food2fork.com/api/search?key=" + myApiKey + "&sort=t";
 
-        myButton = (Button) v.findViewById(R.id.callButton);
+        myButton = v.findViewById(R.id.callButton);
         myButton.setOnClickListener(this);
-        myTextView = (TextView) v.findViewById(R.id.apiReturnTextView);
+        myTextView = v.findViewById(R.id.apiReturnTextView);
 
         myBuilder = new GsonBuilder();
         myBuilder.setPrettyPrinting();
@@ -92,6 +92,7 @@ public class DisplayTopRecipesFragment extends Fragment implements View.OnClickL
                     urlConnection.disconnect();
             }
 
+
             return response;
         }
 
@@ -103,7 +104,10 @@ public class DisplayTopRecipesFragment extends Fragment implements View.OnClickL
                         .show();
                 return;
             }
-            myTextView.setText(result);
+            Response<ApiRecipe> recipeResponse = myGson.fromJson(result, ApiRecipeResponse.class);
+            String recipeString = recipeResponse.getRecipes().toString();
+            //recipeString = recipeString.replaceAll(",", "\n");
+            myTextView.setText(recipeString);
         }
     }
 }
