@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 /**
@@ -20,6 +21,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
     private EditText user, pword, checkword;
     private DBManager db;
+    private TextView message;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -34,6 +36,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         user = (EditText) v.findViewById(R.id.regUname);
         pword = (EditText) v.findViewById(R.id.regPW);
         checkword = (EditText) v.findViewById(R.id.rePWord);
+        message = v.findViewById(R.id.errorText);
         db = new DBManager();
         return v;
     }
@@ -41,20 +44,28 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         boolean exists = false;
         if (mListener != null) {
-     try{
-             exists = db.validCredentials(user.getText().toString());
-         } catch (Exception e){
-             e.printStackTrace();
-         }
-             if (pword.getText().toString().equals(checkword.getText().toString())) {
-                 try{
-                   boolean add =  db.addNewUser(user.getText().toString(), pword.getText().toString());
-                 } catch (Exception e){
-                     e.printStackTrace();
-                 }
-                 mListener.onFragmentInteraction(user.getText().toString());
-                 Log.d("name", user.getText().toString());
+            try {
+                exists = db.validCredentials(user.getText().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (exists) {
+                message.setVisibility(TextView.VISIBLE);
+                mListener.onFragmentInteraction(getString(R.string.register_button));
+            }else{
+                if (pword.getText().toString().equals(checkword.getText().toString())) {
+                    boolean add = false;
+                    try {
+                        add = db.addNewUser(user.getText().toString(), pword.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (add) {
+                        mListener.onFragmentInteraction(user.getText().toString());
+                        Log.d("name", user.getText().toString());
+                    }
 
+                }
             }
         }
     }

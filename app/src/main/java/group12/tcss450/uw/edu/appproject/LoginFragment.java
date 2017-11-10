@@ -62,7 +62,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     }
                 break;
                 case R.id.forgotPWord:
-                    mListener.onFragmentInteraction(getString(R.string.forgot_link));
+                    mListener.onFragmentInteraction(login.getText().toString());
             }
         }
     }
