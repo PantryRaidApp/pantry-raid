@@ -14,7 +14,8 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener,
+        LoginFragment.OnFragmentInteractionListener{
 
     private DBManager db;
 
@@ -61,19 +62,23 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
     }
     @Override
     public void onFragmentInteraction(String theString) {
-        if (theString.compareTo(getString(R.string.login_button))==0){
+        if (theString.equals(getString(R.string.login_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
                     .commit();
-        } else if (theString.compareTo(getString(R.string.register_button))== 0){
+        } else if (theString.equals(getString(R.string.register_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new RegisterFragment())
                     .commit();
-        } else if (theString.compareTo(getString(R.string.search_button))==0){
+        } else if (theString.equals(getString(R.string.search_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
                     .commit();
 
+        } else if (theString.equals(R.string.forgot_link)){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                    .commit();
         }
 
     }

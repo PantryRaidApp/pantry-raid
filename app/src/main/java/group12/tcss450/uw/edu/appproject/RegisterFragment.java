@@ -36,6 +36,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if (mListener != null) {
+
          if(pword.getText().toString().equals(checkword.getText().toString())){
 
          }
