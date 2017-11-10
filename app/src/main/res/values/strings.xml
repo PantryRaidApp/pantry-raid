@@ -12,4 +12,5 @@
     <string name="forgot_link">Forgot Password</string>
     <string name="user_exists">Email already registered</string>
     <string name="password_error">Username/Password incorrect. Please try again</string>
+    <string name="search_button">Search Recipes</string>
 </resources>
