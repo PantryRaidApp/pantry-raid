@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener{
 
     private DBManager db;
 
@@ -54,9 +54,28 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragmentContainer, new DisplayTopRecipesFragment()).commit();
+                        .add(R.id.fragmentContainer, new chooseFragment()).commit();
             }
         }
         
     }
+    @Override
+    public void onFragmentInteraction(String theString) {
+        if (theString.compareTo(getString(R.string.login_button))==0){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new LoginFragment())
+                    .commit();
+        } else if (theString.compareTo(getString(R.string.register_button))== 0){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new RegisterFragment())
+                    .commit();
+        } else if (theString.compareTo(getString(R.string.search_button))==0){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
+                    .commit();
+
+        }
+
+    }
+
 }
