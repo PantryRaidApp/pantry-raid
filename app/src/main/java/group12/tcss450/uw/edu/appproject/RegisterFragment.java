@@ -1,8 +1,10 @@
 package group12.tcss450.uw.edu.appproject;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,8 @@ import android.widget.EditText;
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private OnFragmentInteractionListener mListener;
-    EditText user, pword, checkword;
+    private EditText user, pword, checkword;
+    private DBManager db;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -31,18 +34,33 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         user = (EditText) v.findViewById(R.id.regUname);
         pword = (EditText) v.findViewById(R.id.regPW);
         checkword = (EditText) v.findViewById(R.id.rePWord);
+        db = new DBManager();
         return v;
     }
     @Override
     public void onClick(View view) {
+        boolean exists = false;
         if (mListener != null) {
-
-         if(pword.getText().toString().equals(checkword.getText().toString())){
-
+     try{
+             exists = db.validCredentials(user.getText().toString());
+         } catch (Exception e){
+             e.printStackTrace();
          }
-
+         if (!exists) {
+             if (pword.getText().toString().equals(checkword.getText().toString())) {
+                 try{
+                   boolean add =  db.addNewUser(user.getText().toString(), pword.getText().toString());
+                 } catch (Exception e){
+                     e.printStackTrace();
+                 }
+                 mListener.onFragmentInteraction(getString(R.string.login_button));
+                 Log.d("name", user.getText().toString());
+         }
         }
     }
+    }
+
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(String theString);

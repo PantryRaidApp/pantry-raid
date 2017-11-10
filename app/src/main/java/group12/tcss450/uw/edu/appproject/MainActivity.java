@@ -2,6 +2,7 @@ package group12.tcss450.uw.edu.appproject;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener{
-
+    private AsyncTask<String, Integer, String> mTask;
     private DBManager db;
 
     private Verifier verifier;
@@ -81,6 +82,15 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                     .commit();
         }
 
+    }
+    @Override
+    public void onBackPressed() {
+        if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mTask.cancel(true);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
 }
