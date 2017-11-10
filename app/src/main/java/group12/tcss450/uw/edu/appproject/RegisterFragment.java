@@ -53,7 +53,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                  } catch (Exception e){
                      e.printStackTrace();
                  }
-                 mListener.onFragmentInteraction(getString(R.string.login_button));
+                 mListener.onFragmentInteraction(user.getText().toString());
                  Log.d("name", user.getText().toString());
          }
         }

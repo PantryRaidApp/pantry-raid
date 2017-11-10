@@ -80,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
                     .commit();
+        } else {
+            generateCode(theString);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new chooseFragment())
+                    .commit();
         }
 
     }
