@@ -46,7 +46,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
          } catch (Exception e){
              e.printStackTrace();
          }
-         if (!exists) {
              if (pword.getText().toString().equals(checkword.getText().toString())) {
                  try{
                    boolean add =  db.addNewUser(user.getText().toString(), pword.getText().toString());
@@ -55,9 +54,25 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                  }
                  mListener.onFragmentInteraction(user.getText().toString());
                  Log.d("name", user.getText().toString());
-         }
+
+            }
         }
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 
