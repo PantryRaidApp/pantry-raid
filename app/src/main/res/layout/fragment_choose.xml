@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:onClick="buttonClick"
+        android:onClick="onClick"
         android:text="@string/login_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,13 +22,13 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/RegButton"
+        android:id="@+id/regButton"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:onClick="buttonClick"
+        android:onClick="onClick"
         android:text="@string/register_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
@@ -40,8 +40,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:onClick="buttonClick"
+        android:onClick="onClick"
         android:text="@string/search_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegButton" />
+        app:layout_constraintTop_toBottomOf="@+id/regButton" />
 </android.support.constraint.ConstraintLayout>
