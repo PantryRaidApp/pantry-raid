@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                      mListener.onFragmentInteraction(getString(R.string.search_button));
                     } else {
                       mErrorText.setVisibility(TextView.VISIBLE);
-                        mListener.onFragmentInteraction(getString(R.string.login_button));
+                        //mListener.onFragmentInteraction(getString(R.string.login_button));
                     }
                 break;
                 case R.id.forgotPWord:

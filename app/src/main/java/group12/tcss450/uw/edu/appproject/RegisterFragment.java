@@ -51,7 +51,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             }
             if (exists) {
                 message.setVisibility(TextView.VISIBLE);
-                mListener.onFragmentInteraction(getString(R.string.register_button));
+               // mListener.onFragmentInteraction(getString(R.string.register_button));
             }else{
                 if (pword.getText().toString().equals(checkword.getText().toString())) {
                     boolean add = false;
