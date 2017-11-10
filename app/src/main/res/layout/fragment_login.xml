@@ -56,5 +56,18 @@
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         android:autoLink="web"
-        app:layout_constraintTop_toBottomOf="@+id/LoginPageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/LoginPageButton"
+        android:layout_marginStart="148dp" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/password_error"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
