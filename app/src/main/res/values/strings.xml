@@ -15,4 +15,8 @@
     <string name="search_button">Search Recipes</string>
     <string name="verify_message">Please enter verification code sent to email</string>
     <string name="verify_button">Verify</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="change_button">Change Password</string>
+    <string name="password_length_error">Password must be at least 6 Characters in length</string>
+    <string name="password_match_error">Passwords must match</string>
 </resources>

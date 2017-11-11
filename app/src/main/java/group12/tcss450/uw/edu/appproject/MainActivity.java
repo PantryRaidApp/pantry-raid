@@ -83,16 +83,22 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
 
         } else if (theString.equals(R.string.forgot_link)) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                    .replace(R.id.fragmentContainer, new LoginFragment())
                     .commit();
         } else if (theString.startsWith("verify:")){
             try {
                 theString = theString.split(":")[1];
                 if (theString.equals(code)) {
-                    db.addNewUser(user, password);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragmentContainer, new LoginFragment())
-                            .commit();
+                    if(password !=null) {
+                        db.addNewUser(user, password);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, new LoginFragment())
+                                .commit();
+                    }else{
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                                .commit();
+                    }
                 } else
                     Log.d("TEST", "invalid code. print something later");
             } catch (Exception e) {
@@ -102,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
 
             if (theString.length() > 0) {
                 code = generateCode(theString);
+                user= theString;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, new VerifyEmailPassword())
                         .commit();
@@ -113,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
         user = theUser;
         password = thePassword;
     }
+    public static String getUserName() {
+        return user;
+    }
+
     @Override
     public void onBackPressed() {
         if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
