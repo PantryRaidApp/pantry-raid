@@ -30,9 +30,9 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_login, container, false);
-       // Button b = (Button) v.findViewById(R.id.changePButton);
-        //b.setOnClickListener(this);
+        View v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        Button b = (Button) v.findViewById(R.id.changePButton);
+        b.setOnClickListener(this);
         db = new DBManager();
         pword = v.findViewById(R.id.newPWText);
         rePword = v.findViewById(R.id.reNewPW);

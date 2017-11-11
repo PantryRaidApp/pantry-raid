@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                     .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
                     .commit();
 
-        } else if (theString.equals(R.string.forgot_link)) {
+        } else if (theString.equals(getString(R.string.forgot_link)) ){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
                     .commit();
