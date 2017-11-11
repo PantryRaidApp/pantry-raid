@@ -64,6 +64,16 @@ public class DBManager extends AsyncTask<String, Void, String> {
         String response = task.execute(user, pass).get();
         return response.equals("success");
     }
+    /**
+     * Deletes the user from the db.
+     * @param user The email of the user.
+     * @return True If the user was deleted.
+     */
+    public boolean deleteUser(String user, String pass) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBDeleter();
+        String response = task.execute(user).get();
+        return response.equals("success");
+    }
 
     /**
      * Returns a list of users.
@@ -107,6 +117,33 @@ public class DBManager extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             System.out.println("Error connecting to the database: "+ e);
             return "failure";
+        }
+    }
+    /**
+     * Adds a user from the DB.
+     */
+    private class DBDeleter extends AsyncTask<String, Void, String> {
+
+        /**
+         * Adds the given set of credentials to the DB.
+         * @param strings The credentials to check (2 required).
+         * @return "success" if the add was successful.
+         */
+        @Override
+        protected String doInBackground(String... strings) {
+            if (strings.length < 1) {
+                throw new IllegalArgumentException("Need 1 arguments for DBDeleter!");
+            }
+            String query = "DELETE FROM `User` WHERE username =  ?";
+            try {
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, strings[0]);
+                ResultSet results = statement.executeQuery();
+                return "success";
+            } catch (SQLException e) {
+                System.out.println("Login error: " + e);
+                return "fail"; //error
+            }
         }
     }
     /**
