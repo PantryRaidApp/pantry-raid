@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -84,20 +85,27 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
                     .commit();
-        } else if (theString.equals(code)){
+        } else if (theString.startsWith("verify:")){
             try {
-                db.addNewUser(user, password);
+                theString = theString.split(":")[1];
+                if (theString.equals(code)) {
+                    db.addNewUser(user, password);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer, new LoginFragment())
+                            .commit();
+                } else
+                    Log.d("TEST", "invalid code. print something later");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new LoginFragment())
-                    .commit();
         } else {
-            code = generateCode(theString);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new VerifyEmailPassword())
-                    .commit();
+
+            if (theString.length() > 0) {
+                code = generateCode(theString);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, new VerifyEmailPassword())
+                        .commit();
+            }
         }
 
     }

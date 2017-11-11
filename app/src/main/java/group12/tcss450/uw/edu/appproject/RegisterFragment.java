@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +29,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9.%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
+    public static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        return matcher.find();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,17 +59,22 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (exists) {
+            if (!validate(user.getText().toString())) {
+                message.setText("That is an invalid email address.");
+                message.setVisibility(TextView.VISIBLE);
+            } else if (exists) {
+                message.setText("That username already exists!");
                 message.setVisibility(TextView.VISIBLE);
                // mListener.onFragmentInteraction(getString(R.string.register_button));
-            }else{
-                if (pword.getText().toString().equals(checkword.getText().toString())) {
+            } else {
+                if (pword.getText().toString().length() < 5) {
+                    message.setText("Password must be at least 5 characters.");
+                    message.setVisibility(TextView.VISIBLE);
+                } else if (pword.getText().toString().equals(checkword.getText().toString())) {
                    MainActivity.setUserandPassword(user.getText().toString(), pword.getText().toString());
 
                         mListener.onFragmentInteraction(user.getText().toString());
                         Log.d("name", user.getText().toString());
-
-
                 }
             }
         }

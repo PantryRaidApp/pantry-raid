@@ -53,7 +53,7 @@ public class VerifyEmailPassword extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (mListener != null){
-            mListener.onFragmentInteraction(verify.getText().toString());
+            mListener.onFragmentInteraction("verify:"+verify.getText().toString());
         }
 
     }

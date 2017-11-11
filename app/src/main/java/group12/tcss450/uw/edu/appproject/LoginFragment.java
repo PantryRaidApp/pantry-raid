@@ -60,12 +60,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     if (exists) {
                      mListener.onFragmentInteraction(getString(R.string.search_button));
                     } else {
-                      mErrorText.setVisibility(TextView.VISIBLE);
+                        mErrorText.setText("User/password combination invalid.");
+                        mErrorText.setVisibility(TextView.VISIBLE);
                         //mListener.onFragmentInteraction(getString(R.string.login_button));
                     }
                 break;
                 case R.id.forgotPWord:
-                    mListener.onFragmentInteraction(login.getText().toString());
+                    try{
+                        exists = db.validCredentials(login.getText().toString());
+                        Log.d("TEST", Boolean.toString(exists));
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if (exists)
+                        mListener.onFragmentInteraction(login.getText().toString());
+                    else {
+                        mErrorText.setText("Put in a valid username before attempting to recover info.");
+                        mErrorText.setVisibility(TextView.VISIBLE);
+                    }
                     break;
             }
         }
