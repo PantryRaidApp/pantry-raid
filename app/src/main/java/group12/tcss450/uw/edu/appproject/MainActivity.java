@@ -90,20 +90,27 @@ public class MainActivity extends AppCompatActivity implements
                     .addToBackStack(null)
                     .commit();
 
-        } else if (theString.equals(R.string.forgot_link)) {
+        } else if (theString.equals(getString(R.string.forgot_link)) ){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                    .replace(R.id.fragmentContainer, new LoginFragment())
                     .addToBackStack(null)
                     .commit();
         } else if (theString.startsWith("verify:")){
             try {
                 theString = theString.split(":")[1];
                 if (theString.equals(code)) {
-                    db.addNewUser(user, password);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragmentContainer, new LoginFragment())
-                            .addToBackStack(null)
-                            .commit();
+                    if(password !=null) {
+                        db.addNewUser(user, password);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, new LoginFragment())
+                                .addToBackStack(null)
+                                .commit();
+                    }else{
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                                .addToBackStack(null)
+                                .commit();
+                    }
                 } else
                     Log.d("TEST", "invalid code. print something later");
             } catch (Exception e) {
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements
 
             if (theString.length() > 0) {
                 code = generateCode(theString);
+                user= theString;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, new VerifyEmailPassword())
                         .addToBackStack(null)
@@ -131,6 +139,10 @@ public class MainActivity extends AppCompatActivity implements
     public static void setUserandPassword(String theUser, String thePassword){
         user = theUser;
         password = thePassword;
+    }
+          
+    public static String getUserName() {
+        return user;
     }
 
     @Override
