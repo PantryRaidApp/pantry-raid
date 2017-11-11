@@ -1,6 +1,7 @@
 package group12.tcss450.uw.edu.appproject;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 public class VerifyEmailPassword extends Fragment implements View.OnClickListener {
 
     private EditText verify;
+    private OnFragmentInteractionListener mListener;
     public VerifyEmailPassword() {
         // Required empty public constructor
     }
@@ -31,9 +33,32 @@ public class VerifyEmailPassword extends Fragment implements View.OnClickListene
         verify = v.findViewById(R.id.verCode);
         return v;
     }
-    @Override
-    public void onClick(View view) {
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+    @Override
+    public void onClick(View view) {
+        if (mListener != null){
+            mListener.onFragmentInteraction(verify.getText().toString());
+        }
+
+    }
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(String theString);
+    }
     }

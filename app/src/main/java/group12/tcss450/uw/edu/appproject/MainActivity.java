@@ -16,10 +16,13 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener,
-        LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener{
+        LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener,
+        VerifyEmailPassword.OnFragmentInteractionListener{
     private AsyncTask<String, Integer, String> mTask;
     private DBManager db;
-    private String code;
+    String code;
+    private static String user;
+    private static String password;
 
     private Verifier verifier;
 
@@ -82,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                     .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
                     .commit();
         } else if (theString.equals(code)){
+            try {
+                db.addNewUser(user, password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
                     .commit();
@@ -92,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                     .commit();
         }
 
+    }
+    public static void setUserandPassword(String theUser, String thePassword){
+        user = theUser;
+        password = thePassword;
     }
     @Override
     public void onBackPressed() {
