@@ -1,6 +1,7 @@
 package group12.tcss450.uw.edu.appproject;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,8 @@ import android.view.ViewGroup;
  */
 public class ForgotPasswordFragment extends Fragment {
 
-
+    private OnFragmentInteractionListener mListener;
+    private DBManager db;
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
@@ -26,4 +28,25 @@ public class ForgotPasswordFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_forgot_password, container, false);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(String theString);
+    }
 }

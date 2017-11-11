@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener,
-        VerifyEmailPassword.OnFragmentInteractionListener{
+        VerifyEmailPassword.OnFragmentInteractionListener, ForgotPasswordFragment.OnFragmentInteractionListener{
     private AsyncTask<String, Integer, String> mTask;
     private DBManager db;
     String code;
