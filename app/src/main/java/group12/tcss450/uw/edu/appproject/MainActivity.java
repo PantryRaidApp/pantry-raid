@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
         LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener{
     private AsyncTask<String, Integer, String> mTask;
     private DBManager db;
+    private String code;
 
     private Verifier verifier;
 
@@ -76,14 +77,18 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                     .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
                     .commit();
 
-        } else if (theString.equals(R.string.forgot_link)){
+        } else if (theString.equals(R.string.forgot_link)) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
                     .commit();
-        } else {
-            generateCode(theString);
+        } else if (theString.equals(code)){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new chooseFragment())
+                    .replace(R.id.fragmentContainer, new LoginFragment())
+                    .commit();
+        } else {
+            code = generateCode(theString);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, new VerifyEmailPassword())
                     .commit();
         }
 
