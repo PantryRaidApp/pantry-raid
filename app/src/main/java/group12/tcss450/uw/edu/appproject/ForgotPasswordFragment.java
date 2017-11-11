@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Functionality for when a user forgets their password.
  */
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener{
 
@@ -22,10 +23,13 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
     private EditText pword;
     private EditText rePword;
     private TextView mErrorText;
+    
+    /**
+    * Required constructor.
+    */
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,8 +87,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
 }

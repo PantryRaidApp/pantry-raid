@@ -16,9 +16,15 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity implements chooseFragment.OnFragmentInteractionListener,
-        LoginFragment.OnFragmentInteractionListener, RegisterFragment.OnFragmentInteractionListener,
-        VerifyEmailPassword.OnFragmentInteractionListener, ForgotPasswordFragment.OnFragmentInteractionListener{
+/**
+ * The main activity that handles all fragment transactions into the main functionality of the app.
+ */
+public class MainActivity extends AppCompatActivity implements
+        chooseFragment.OnFragmentInteractionListener,
+        LoginFragment.OnFragmentInteractionListener,
+        RegisterFragment.OnFragmentInteractionListener,
+        VerifyEmailPassword.OnFragmentInteractionListener,
+        ForgotPasswordFragment.OnFragmentInteractionListener {
     private AsyncTask<String, Integer, String> mTask;
     private DBManager db;
     String code;
@@ -71,19 +77,23 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
         if (theString.equals(getString(R.string.login_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
+                    .addToBackStack(null)
                     .commit();
         } else if (theString.equals(getString(R.string.register_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new RegisterFragment())
+                    .addToBackStack(null)
                     .commit();
         } else if (theString.equals(getString(R.string.search_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
+                    .addToBackStack(null)
                     .commit();
 
         } else if (theString.equals(getString(R.string.forgot_link)) ){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
+                    .addToBackStack(null)
                     .commit();
         } else if (theString.startsWith("verify:")){
             try {
@@ -93,10 +103,12 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                         db.addNewUser(user, password);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragmentContainer, new LoginFragment())
+                                .addToBackStack(null)
                                 .commit();
                     }else{
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
+                                .addToBackStack(null)
                                 .commit();
                     }
                 } else
@@ -111,15 +123,24 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
                 user= theString;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, new VerifyEmailPassword())
+                        .addToBackStack(null)
                         .commit();
             }
         }
 
     }
+
+    /**
+     * Called when a new user is registered.
+     * Sets the email and password for that user.
+     * @param theUser the user email.
+     * @param thePassword the user password.
+     */
     public static void setUserandPassword(String theUser, String thePassword){
         user = theUser;
         password = thePassword;
     }
+          
     public static String getUserName() {
         return user;
     }
@@ -133,5 +154,4 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
             super.onBackPressed();
         }
     }
-
 }

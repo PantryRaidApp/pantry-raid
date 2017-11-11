@@ -12,10 +12,15 @@ import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
+ * The main fragment that allows the user to pick between basic starting options:
+ * Login, register, display recipes from the API.
  */
 public class chooseFragment extends Fragment implements View.OnClickListener{
-
     private OnFragmentInteractionListener mListener;
+
+    /**
+     * Required constructor.
+     */
     public chooseFragment() {
         // Required empty public constructor
     }
@@ -33,6 +38,7 @@ public class chooseFragment extends Fragment implements View.OnClickListener{
         b.setOnClickListener(this);
         return v;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -66,8 +72,8 @@ public class chooseFragment extends Fragment implements View.OnClickListener{
             }
         }
     }
-    public interface OnFragmentInteractionListener {
 
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Provides functionality that allows users to login with a preexisting account.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
@@ -23,22 +24,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private DBManager db;
     private boolean exists;
     private TextView mErrorText;
+
+    /**
+     * A required empty constructor.
+     */
     public LoginFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         db = new DBManager();
-        Button b = (Button) v.findViewById(R.id.LoginPageButton);
+        Button b = v.findViewById(R.id.LoginPageButton);
         b.setOnClickListener(this);
         b = v.findViewById(R.id.forgotPWord);
         b.setOnClickListener(this);
-        login = (EditText) v.findViewById(R.id.uName);
-        password = (EditText) v.findViewById(R.id.pWord);
+        login = v.findViewById(R.id.uName);
+        password = v.findViewById(R.id.pWord);
         mErrorText = v.findViewById(R.id.errorText);
 
         return v;
@@ -49,7 +53,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             switch (view.getId()) {
                 case R.id.LoginPageButton:
                     try{
-                        exists = db.validCredentials(login.getText().toString(),
+                        exists = db.validCredentials((login.getText().toString())
+                                        .trim().toLowerCase(),
                                 password.getText().toString());
                         Log.d("TEST", Boolean.toString(exists));
 
@@ -60,14 +65,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     if (exists) {
                      mListener.onFragmentInteraction(getString(R.string.search_button));
                     } else {
-                        mErrorText.setText("User/password combination invalid.");
+                        mErrorText.setText(R.string.invalid_username_password);
                         mErrorText.setVisibility(TextView.VISIBLE);
                         //mListener.onFragmentInteraction(getString(R.string.login_button));
                     }
                 break;
                 case R.id.forgotPWord:
                     try{
-                        exists = db.validCredentials(login.getText().toString());
+                        exists = db.validCredentials((login.getText().toString())
+                                .trim().toLowerCase());
                         Log.d("TEST", Boolean.toString(exists));
 
                     }
@@ -75,9 +81,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                         e.printStackTrace();
                     }
                     if (exists)
-                        mListener.onFragmentInteraction(login.getText().toString());
+                        mListener.onFragmentInteraction((login.getText().toString())
+                                .trim().toLowerCase());
                     else {
-                        mErrorText.setText("Put in a valid username before attempting to recover info.");
+                        mErrorText.setText(R.string.forgot_password_no_email);
                         mErrorText.setVisibility(TextView.VISIBLE);
                     }
                     break;
@@ -101,9 +108,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
-
 }
