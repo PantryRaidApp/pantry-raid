@@ -13,4 +13,6 @@
     <string name="user_exists">Email already registered</string>
     <string name="password_error">Username/Password incorrect. Please try again</string>
     <string name="search_button">Search Recipes</string>
+    <string name="verify_message">Please enter verification code sent to email</string>
+    <string name="verify_button">Verify</string>
 </resources>
