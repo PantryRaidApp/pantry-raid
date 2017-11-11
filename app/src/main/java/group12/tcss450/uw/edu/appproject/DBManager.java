@@ -69,7 +69,7 @@ public class DBManager extends AsyncTask<String, Void, String> {
      * @param user The email of the user.
      * @return True If the user was deleted.
      */
-    public boolean deleteUser(String user, String pass) throws ExecutionException, InterruptedException {
+    public boolean deleteUser(String user) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBDeleter();
         String response = task.execute(user).get();
         return response.equals("success");
