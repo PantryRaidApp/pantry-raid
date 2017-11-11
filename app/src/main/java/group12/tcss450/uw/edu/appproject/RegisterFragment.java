@@ -1,6 +1,5 @@
 package group12.tcss450.uw.edu.appproject;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * A simple {@link Fragment} subclass.
+ * Provides functionality for a user to create an account.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
@@ -25,17 +24,27 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private EditText user, pword, checkword;
     private DBManager db;
     private TextView message;
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9.%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Required constructor.
+     */
+    public RegisterFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Method to validate an email
+     * @param emailStr the entered email at a string.
+     * @return if the email is valid.
+     */
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,17 +58,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         db = new DBManager();
         return v;
     }
+
     @Override
     public void onClick(View view) {
         boolean exists = false;
         if (mListener != null) {
             try {
-                exists = db.validCredentials(user.getText().toString());
+                exists = db.validCredentials((user.getText().toString()).trim().toLowerCase());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (!validate(user.getText().toString())) {
+            if (!validate((user.getText().toString()).trim().toLowerCase())) {
                 message.setText("That is an invalid email address.");
                 message.setVisibility(TextView.VISIBLE);
             } else if (exists) {
@@ -71,14 +81,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                     message.setText("Password must be at least 5 characters.");
                     message.setVisibility(TextView.VISIBLE);
                 } else if (pword.getText().toString().equals(checkword.getText().toString())) {
-                   MainActivity.setUserandPassword(user.getText().toString(), pword.getText().toString());
+                   MainActivity.setUserandPassword((user.getText().toString()).trim().toLowerCase(),
+                           pword.getText().toString());
 
                         mListener.onFragmentInteraction(user.getText().toString());
-                        Log.d("name", user.getText().toString());
+                        Log.d("name", (user.getText().toString()).trim().toLowerCase());
                 }
             }
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -96,9 +108,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-
-    public interface OnFragmentInteractionListener {
-
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
 }

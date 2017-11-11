@@ -1,6 +1,5 @@
 package group12.tcss450.uw.edu.appproject;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,18 +9,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-
 /**
  * A simple {@link Fragment} subclass.
+ * Helper class to verify user input of email and password.
  */
 public class VerifyEmailPassword extends Fragment implements View.OnClickListener {
 
     private EditText verify;
     private OnFragmentInteractionListener mListener;
+
+    /**
+     * Required constructor.
+     */
     public VerifyEmailPassword() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,7 @@ public class VerifyEmailPassword extends Fragment implements View.OnClickListene
         super.onDetach();
         mListener = null;
     }
+
     @Override
     public void onClick(View view) {
         if (mListener != null){
@@ -57,8 +60,9 @@ public class VerifyEmailPassword extends Fragment implements View.OnClickListene
         }
 
     }
-    public interface OnFragmentInteractionListener {
+
+    interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(String theString);
     }
-    }
+}

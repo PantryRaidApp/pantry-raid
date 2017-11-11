@@ -15,4 +15,8 @@
     <string name="search_button">Search Recipes</string>
     <string name="verify_message">Please enter verification code sent to email</string>
     <string name="verify_button">Verify</string>
+    
+    <string name="invalid_username_password">User/password combination invalid.</string>
+    <string name="forgot_password_no_email">Put in a valid username before attempting to recover
+        info.</string>
 </resources>

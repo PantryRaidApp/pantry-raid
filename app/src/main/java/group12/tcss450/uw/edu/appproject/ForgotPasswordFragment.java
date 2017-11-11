@@ -11,15 +11,18 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Functionality for when a user forgets their password.
  */
 public class ForgotPasswordFragment extends Fragment {
-
     private OnFragmentInteractionListener mListener;
     private DBManager db;
+
+    /**
+     * Required constructor.
+     */
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,8 +48,7 @@ public class ForgotPasswordFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
 }
