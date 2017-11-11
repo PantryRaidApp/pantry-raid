@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements chooseFragment.On
             Object result = db.execute().get(); //so the async task can finish
             Log.d("TEST", Boolean.toString(db.validCredentials("eeeshe", "wow")));
             Log.d("TEST", Boolean.toString(db.validCredentials("eeessdfsdhe", "wow")));
-            generateCode("hustanley@gmail.com");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

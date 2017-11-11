@@ -36,7 +36,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         user = (EditText) v.findViewById(R.id.regUname);
         pword = (EditText) v.findViewById(R.id.regPW);
         checkword = (EditText) v.findViewById(R.id.rePWord);
-        message = v.findViewById(R.id.errorText);
+        message = v.findViewById(R.id.eText);
         db = new DBManager();
         return v;
     }
@@ -46,6 +46,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         if (mListener != null) {
             try {
                 exists = db.validCredentials(user.getText().toString());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

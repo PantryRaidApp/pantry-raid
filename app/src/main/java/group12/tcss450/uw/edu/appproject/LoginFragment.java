@@ -4,6 +4,7 @@ package group12.tcss450.uw.edu.appproject;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,16 +40,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         login = (EditText) v.findViewById(R.id.uName);
         password = (EditText) v.findViewById(R.id.pWord);
         mErrorText = v.findViewById(R.id.errorText);
+
         return v;
     }
     @Override
     public void onClick(View view) {
         if (mListener != null) {
             switch (view.getId()) {
-                case R.id.loginButton:
+                case R.id.LoginPageButton:
                     try{
                         exists = db.validCredentials(login.getText().toString(),
                                 password.getText().toString());
+                        Log.d("TEST", Boolean.toString(exists));
 
                     }
                     catch (Exception e){
@@ -63,6 +66,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 break;
                 case R.id.forgotPWord:
                     mListener.onFragmentInteraction(login.getText().toString());
+                    break;
             }
         }
     }

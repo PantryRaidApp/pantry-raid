@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rePWord" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/eText"
         android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
