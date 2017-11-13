@@ -1,6 +1,6 @@
 # pantry-raid
 TCSS 450 <br>
-Team Member: <br>
+Team Members: <br>
 Zira, Stan, Sam
 <br>
 <br>TODO: <br>
