@@ -4,7 +4,7 @@ Zira
 Stan
 Sam
 <br>
-TODO: <br>
+<br>TODO: <br>
 Check if first time app is opened <br>
 Skip login button <br>
 Number only keyboard <br>
@@ -14,3 +14,4 @@ WebViewer <br>
 Favorites (FloatingActionButton) <br>
 Database user edit not deletion <br>
 Increment user id <br>
+Tablet Layouts (divided page, etc) <br>
