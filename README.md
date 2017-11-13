@@ -1,8 +1,7 @@
 # pantry-raid
-TCSS 450
-Zira
-Stan
-Sam
+TCSS 450 <br>
+Team Member: <br>
+Zira, Stan, Sam
 <br>
 <br>TODO: <br>
 Check if first time app is opened <br>
