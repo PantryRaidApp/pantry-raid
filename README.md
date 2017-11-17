@@ -4,6 +4,9 @@ Team Members: <br>
 Zira, Stan, Sam
 <br>
 <br>TODO: <br>
+Show password option when logging in or registering <br>
+Autofill login after registration <br>
+Icon <br>
 Check if first time app is opened <br>
 Skip login button <br>
 Number only keyboard <br>
