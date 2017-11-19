@@ -21,9 +21,9 @@ import java.util.regex.Pattern;
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private OnFragmentInteractionListener mListener;
-    private EditText user, pword, checkword;
-    private DBManager db;
-    private TextView message;
+    private EditText email, password, passwordreenter;
+    private DBManager database;
+    private TextView errorMessage;
 
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9.%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -49,13 +49,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_register, container, false);
-        Button b = (Button) v.findViewById(R.id.rButton);
+        Button b = v.findViewById(R.id.registerButton);
         b.setOnClickListener(this);
-        user = (EditText) v.findViewById(R.id.regUname);
-        pword = (EditText) v.findViewById(R.id.regPW);
-        checkword = (EditText) v.findViewById(R.id.rePWord);
-        message = v.findViewById(R.id.eText);
-        db = new DBManager();
+        email = v.findViewById(R.id.emailRegisterEditText);
+        password = v.findViewById(R.id.passwordRegisterEditText);
+        passwordreenter = v.findViewById(R.id.reenterPasswordRegisterEditText);
+        errorMessage = v.findViewById(R.id.errorRegisterTextView);
+        database = new DBManager();
         return v;
     }
 
@@ -64,28 +64,30 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         boolean exists = false;
         if (mListener != null) {
             try {
-                exists = db.validCredentials((user.getText().toString()).trim().toLowerCase());
+                exists = database.validCredentials((email.getText().toString()).trim().toLowerCase());
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (!validate((user.getText().toString()).trim().toLowerCase())) {
-                message.setText("That is an invalid email address.");
-                message.setVisibility(TextView.VISIBLE);
+            if (!validate((email.getText().toString()).trim().toLowerCase())) {
+                errorMessage.setText(R.string.invalid_email);
+                errorMessage.setVisibility(TextView.VISIBLE);
             } else if (exists) {
-                message.setText("That username already exists!");
-                message.setVisibility(TextView.VISIBLE);
-               // mListener.onFragmentInteraction(getString(R.string.register_button));
+                errorMessage.setText(R.string.user_exists);
+                errorMessage.setVisibility(TextView.VISIBLE);
             } else {
-                if (pword.getText().toString().length() < 5) {
-                    message.setText("Password must be at least 5 characters.");
-                    message.setVisibility(TextView.VISIBLE);
-                } else if (pword.getText().toString().equals(checkword.getText().toString())) {
-                   MainActivity.setUserandPassword((user.getText().toString()).trim().toLowerCase(),
-                           pword.getText().toString());
+                if (password.getText().toString().length() < 6) {
+                    errorMessage.setText(R.string.password_length_error);
+                    errorMessage.setVisibility(TextView.VISIBLE);
+                } else if (!password.getText().toString().equals(passwordreenter.getText().toString())) {
+                    errorMessage.setText(R.string.password_match_error);
+                    errorMessage.setVisibility(TextView.VISIBLE);
+                } else if (password.getText().toString().equals(passwordreenter.getText().toString())) {
+                   MainActivity.setUserandPassword((email.getText().toString()).trim().toLowerCase(),
+                           password.getText().toString());
 
-                        mListener.onFragmentInteraction(user.getText().toString());
-                        Log.d("name", (user.getText().toString()).trim().toLowerCase());
+                        mListener.onFragmentInteraction(email.getText().toString());
+                        Log.d("name", (email.getText().toString()).trim().toLowerCase());
                 }
             }
         }

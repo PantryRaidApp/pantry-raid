@@ -1,37 +1,24 @@
 package group12.tcss450.uw.edu.appproject;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The main activity that handles all fragment transactions into the main functionality of the app.
  */
 public class MainActivity extends AppCompatActivity implements
-        chooseFragment.OnFragmentInteractionListener,
+        MainPageFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.OnFragmentInteractionListener,
         VerifyEmailPassword.OnFragmentInteractionListener,
         ForgotPasswordFragment.OnFragmentInteractionListener {
     private AsyncTask<String, Integer, String> mTask;
-    private DBManager db;
+    private DBManager database;
     String code;
     private static String user;
     private static String password;
-
-    private Verifier verifier;
 
     /**
      * Generates a 5-digit code and sends it to the given email address.
@@ -40,9 +27,8 @@ public class MainActivity extends AppCompatActivity implements
      */
     public String generateCode(String email) {
         try {
-            verifier = new Verifier();
-            String result = verifier.execute(email).get();
-            return result;
+            Verifier verifier = new Verifier();
+            return verifier.execute(email).get();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -54,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new DBManager();
+        database = new DBManager();
         try {
-            Object result = db.execute().get(); //so the async task can finish
-            Log.d("TEST", Boolean.toString(db.validCredentials("eeeshe", "wow")));
-            Log.d("TEST", Boolean.toString(db.validCredentials("eeessdfsdhe", "wow")));
+            Object result = database.execute().get(); //so the async task can finish
+            Log.d("TEST", Boolean.toString(database.validCredentials("eeeshe", "wow")));
+            Log.d("TEST", Boolean.toString(database.validCredentials("eeessdfsdhe", "wow")));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,30 +53,25 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragmentContainer, new chooseFragment()).commit();
+                        .add(R.id.fragmentContainer, new MainPageFragment()).commit();
             }
         }
         
     }
     @Override
     public void onFragmentInteraction(String theString) {
-        if (theString.equals(getString(R.string.login_button))){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new LoginFragment())
-                    .addToBackStack(null)
-                    .commit();
-        } else if (theString.equals(getString(R.string.register_button))){
+        if (theString.equals(getString(R.string.register_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new RegisterFragment())
                     .addToBackStack(null)
                     .commit();
-        } else if (theString.equals(getString(R.string.search_button))){
+        } else if (theString.equals(getString(R.string.skip_button))){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
+                    .replace(R.id.fragmentContainer, new RecipeViewFragment())
                     .addToBackStack(null)
                     .commit();
 
-        } else if (theString.equals(getString(R.string.forgot_link)) ){
+        } else if (theString.equals(getString(R.string.forgot_password_button)) ){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
                     .addToBackStack(null)
@@ -100,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements
                 theString = theString.split(":")[1];
                 if (theString.equals(code)) {
                     if(password !=null) {
-                        db.addNewUser(user, password);
+                        database.addNewUser(user, password);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragmentContainer, new LoginFragment())
                                 .addToBackStack(null)

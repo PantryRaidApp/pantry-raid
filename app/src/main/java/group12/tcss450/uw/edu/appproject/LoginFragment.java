@@ -63,7 +63,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                         e.printStackTrace();
                     }
                     if (exists) {
-                     mListener.onFragmentInteraction(getString(R.string.search_button));
+                     mListener.onFragmentInteraction(getString(R.string.skip_button));
                     } else {
                         mErrorText.setText(R.string.invalid_username_password);
                         mErrorText.setVisibility(TextView.VISIBLE);

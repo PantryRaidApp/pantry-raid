@@ -25,7 +25,7 @@ import java.net.URL;
  * A simple {@link Fragment} subclass.
  * Provides functionality to display the top 30 recipes from food2fork.
  */
-public class DisplayTopRecipesFragment extends Fragment implements View.OnClickListener{
+public class RecipeViewFragment extends Fragment implements View.OnClickListener{
     private String myApiKey;
     private String myApiCall;
 
@@ -35,7 +35,7 @@ public class DisplayTopRecipesFragment extends Fragment implements View.OnClickL
     private GsonBuilder myBuilder;
     private Gson myGson;
 
-    public DisplayTopRecipesFragment() {
+    public RecipeViewFragment() {
         // Required empty public constructor
     }
 

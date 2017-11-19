@@ -69,7 +69,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
                     } catch(Exception e){
                         e.printStackTrace();
                     }
-                    mListener.onFragmentInteraction(getString(R.string.forgot_link));
+                    mListener.onFragmentInteraction(getString(R.string.forgot_password_button));
                 } else {
                     mErrorText.setText(R.string.password_length_error);
                     mErrorText.setVisibility(TextView.VISIBLE);
