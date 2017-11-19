@@ -6,11 +6,14 @@
     <color name="colorAccent23534343453">#FF4082</color>
     <color name="colorAccentOther">#FF4097</color>
 
-    <color name="colorBackground">#8EB1C7</color>
+    <color name="colorBackgroundDark">#142b51</color>
+    <color name="colorBackgroundLight">#8EB1C7</color>
     <color name="colorTaskBar">#B02E0C</color>
     <color name="colorFavoritesButton">#EB4511</color>
     <color name="colorDarkText">#C1BFB5</color>
     <color name="colorText">#FEFDFF</color>
+
+    <color name="colorRed">#d52823</color>
 
     <color name="aTestColor">#ABCDEF</color>
 

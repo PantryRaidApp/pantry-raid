@@ -2,24 +2,33 @@
     <string name="app_name">Pantry Raid</string>
 
     <string name="hello_blank_fragment">hello</string>
-    <string name="forgot_password_message">Enter the code from your email.</string>
+
+
+
+
     <string name="verify_email_message">Enter the code from your email.</string>
+
     <string name="user_name_hint">Email</string>
+
     <string name="password_hint">Password</string>
-    <string name="renter_hint">Re-enter Password</string>
-    <string name="login_button">Login</string>
-    <string name="register_button">Register</string>
-    <string name="forgot_link">Forgot Password</string>
-    <string name="user_exists">Email already registered</string>
-    <string name="password_error">Username/Password incorrect. Please try again</string>
-    <string name="search_button">Search Recipes</string>
-    <string name="verify_message">Please enter verification code sent to email</string>
-    <string name="verify_button">Verify</string>
     <string name="new_password_hint">New Password</string>
-    <string name="change_button">Change Password</string>
+    <string name="renter_hint">Re-enter Password</string>
     <string name="password_length_error">Password must be at least 6 Characters in length</string>
     <string name="password_match_error">Passwords must match</string>
+    <string name="forgot_password_no_email">Put in a valid email before attempting to recover
+        information.</string>
+    <string name="password_error">Username/Password incorrect. Please try again</string>
+
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="forgot_password_button">Forgot password?</string>
+    <string name="skip_button">Skip</string>
+    <string name="verify_button">Verify</string>
+    <string name="change_button">Change Password</string>
+
+    <string name="user_exists">Email already registered</string>
+    <string name="forgot_password_message">Enter the code from your email.</string>
+    <string name="verify_message">Please enter verification code sent to email</string>
     <string name="invalid_username_password">User/password combination invalid.</string>
-    <string name="forgot_password_no_email">Put in a valid username before attempting to recover
-        info.</string>
+
 </resources>

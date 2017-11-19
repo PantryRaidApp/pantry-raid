@@ -1,26 +1,15 @@
 package group12.tcss450.uw.edu.appproject;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The main activity that handles all fragment transactions into the main functionality of the app.
  */
 public class MainActivity extends AppCompatActivity implements
-        chooseFragment.OnFragmentInteractionListener,
+        MainPageFragment.OnFragmentInteractionListener,
         LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.OnFragmentInteractionListener,
         VerifyEmailPassword.OnFragmentInteractionListener,
@@ -67,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             if (findViewById(R.id.fragmentContainer) != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragmentContainer, new chooseFragment()).commit();
+                        .add(R.id.fragmentContainer, new MainPageFragment()).commit();
             }
         }
         
@@ -84,13 +73,13 @@ public class MainActivity extends AppCompatActivity implements
                     .replace(R.id.fragmentContainer, new RegisterFragment())
                     .addToBackStack(null)
                     .commit();
-        } else if (theString.equals(getString(R.string.search_button))){
+        } else if (theString.equals(getString(R.string.skip_button))){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new DisplayTopRecipesFragment())
+                    .replace(R.id.fragmentContainer, new RecipeViewFragment())
                     .addToBackStack(null)
                     .commit();
 
-        } else if (theString.equals(getString(R.string.forgot_link)) ){
+        } else if (theString.equals(getString(R.string.forgot_password_button)) ){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new LoginFragment())
                     .addToBackStack(null)
