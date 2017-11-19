@@ -5,60 +5,9 @@
     android:layout_height="match_parent"
     tools:context="group12.tcss450.uw.edu.appproject.MainPageFragment">
 
-
-
-    <!--
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="26dp"
-        android:onClick="onClick"
-        android:text="@string/login_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1"
-        app:layout_constraintHorizontal_bias="0.53" />
-
-    <Button
-        android:id="@+id/regButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="26dp"
-        android:onClick="onClick"
-        android:text="@string/register_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
-        app:layout_constraintHorizontal_bias="0.53" />
-
-    <Button
-        android:id="@+id/skipButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="26dp"
-        android:onClick="onClick"
-        android:text="@string/skip_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regButton"
-        app:layout_constraintHorizontal_bias="0.537" />
-        -->
-
     <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/errorLoginTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text=""
         android:textColor="@color/colorDarkText"
@@ -67,7 +16,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/emailLoginEditText"
@@ -89,7 +39,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/errorTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/errorLoginTextView" />
 
     <EditText
         android:id="@+id/passwordLoginEditText"
@@ -114,10 +64,9 @@
         android:layout_marginEnd="32dp" />
 
 
-
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
@@ -130,11 +79,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
 
     <Button
-        android:id="@+id/registerButton"
-        android:layout_width="match_parent"
+        android:id="@+id/registerFragmentButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
@@ -147,15 +98,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
 
     <Button
         android:id="@+id/forgotPasswordButton"
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_margin="8dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="8dp"
         android:onClick="onClick"
         android:text="@string/forgot_password_button"
         android:textColor="@color/colorDarkText"
@@ -163,15 +116,15 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/registerFragmentButton" />
 
     <Button
         android:id="@+id/skipButton"
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_margin="8dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="8dp"
         android:onClick="onClick"
         android:text="@string/skip_button"
         android:textColor="@color/colorDarkText"

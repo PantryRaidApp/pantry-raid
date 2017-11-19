@@ -15,12 +15,10 @@ public class MainActivity extends AppCompatActivity implements
         VerifyEmailPassword.OnFragmentInteractionListener,
         ForgotPasswordFragment.OnFragmentInteractionListener {
     private AsyncTask<String, Integer, String> mTask;
-    private DBManager db;
+    private DBManager database;
     String code;
     private static String user;
     private static String password;
-
-    private Verifier verifier;
 
     /**
      * Generates a 5-digit code and sends it to the given email address.
@@ -29,9 +27,8 @@ public class MainActivity extends AppCompatActivity implements
      */
     public String generateCode(String email) {
         try {
-            verifier = new Verifier();
-            String result = verifier.execute(email).get();
-            return result;
+            Verifier verifier = new Verifier();
+            return verifier.execute(email).get();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -43,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new DBManager();
+        database = new DBManager();
         try {
-            Object result = db.execute().get(); //so the async task can finish
-            Log.d("TEST", Boolean.toString(db.validCredentials("eeeshe", "wow")));
-            Log.d("TEST", Boolean.toString(db.validCredentials("eeessdfsdhe", "wow")));
+            Object result = database.execute().get(); //so the async task can finish
+            Log.d("TEST", Boolean.toString(database.validCredentials("eeeshe", "wow")));
+            Log.d("TEST", Boolean.toString(database.validCredentials("eeessdfsdhe", "wow")));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,12 +60,7 @@ public class MainActivity extends AppCompatActivity implements
     }
     @Override
     public void onFragmentInteraction(String theString) {
-        if (theString.equals(getString(R.string.login_button))){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new LoginFragment())
-                    .addToBackStack(null)
-                    .commit();
-        } else if (theString.equals(getString(R.string.register_button))){
+        if (theString.equals(getString(R.string.register_button))){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new RegisterFragment())
                     .addToBackStack(null)
@@ -89,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements
                 theString = theString.split(":")[1];
                 if (theString.equals(code)) {
                     if(password !=null) {
-                        db.addNewUser(user, password);
+                        database.addNewUser(user, password);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragmentContainer, new LoginFragment())
                                 .addToBackStack(null)

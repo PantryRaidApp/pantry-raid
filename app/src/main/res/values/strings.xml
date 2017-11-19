@@ -9,10 +9,11 @@
     <string name="verify_email_message">Enter the code from your email.</string>
 
     <string name="user_name_hint">Email</string>
+    <string name="invalid_email">Email address entered is invalid.</string>
 
     <string name="password_hint">Password</string>
     <string name="new_password_hint">New Password</string>
-    <string name="renter_hint">Re-enter Password</string>
+    <string name="reenter_hint">Re-enter Password</string>
     <string name="password_length_error">Password must be at least 6 Characters in length</string>
     <string name="password_match_error">Passwords must match</string>
     <string name="forgot_password_no_email">Put in a valid email before attempting to recover

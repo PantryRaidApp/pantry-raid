@@ -38,7 +38,7 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
         View v = inflater.inflate(R.layout.fragment_main_page, container, false);
         Button b = v.findViewById(R.id.loginButton);
         b.setOnClickListener(this);
-        b = v.findViewById(R.id.registerButton);
+        b = v.findViewById(R.id.registerFragmentButton);
         b.setOnClickListener(this);
         b = v.findViewById(R.id.forgotPasswordButton);
         b.setOnClickListener(this);
@@ -47,7 +47,7 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
 
         email = v.findViewById(R.id.emailLoginEditText);
         password = v.findViewById(R.id.passwordLoginEditText);
-        errorText = v.findViewById(R.id.errorTextView);
+        errorText = v.findViewById(R.id.errorLoginTextView);
 
         return v;
     }
@@ -89,7 +89,6 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
                     } else {
                         errorText.setText(R.string.invalid_username_password);
                         errorText.setVisibility(TextView.VISIBLE);
-                        //mListener.onFragmentInteraction(getString(R.string.login_button));
                     }
                     break;
                 case R.id.forgotPasswordButton:
@@ -109,7 +108,7 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
                         errorText.setText(R.string.forgot_password_no_email);
                         errorText.setVisibility(TextView.VISIBLE);
                     }
-                case R.id.registerButton:
+                case R.id.registerFragmentButton:
                     mListener.onFragmentInteraction(getString(R.string.register_button));
                     break;
                 case R.id.skipButton:
