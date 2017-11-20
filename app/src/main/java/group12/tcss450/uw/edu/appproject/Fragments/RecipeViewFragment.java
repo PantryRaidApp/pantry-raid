@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.Fragments;
 
 
 import android.os.AsyncTask;
@@ -19,6 +19,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import group12.tcss450.uw.edu.appproject.API.ApiRecipeResponse;
+import group12.tcss450.uw.edu.appproject.API.ApiRecipe;
+import group12.tcss450.uw.edu.appproject.R;
+import group12.tcss450.uw.edu.appproject.API.Response;
 
 
 /**

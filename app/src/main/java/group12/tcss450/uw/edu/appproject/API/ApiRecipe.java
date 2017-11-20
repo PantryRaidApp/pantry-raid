@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.API;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author Zira Cook
  */
-class ApiRecipe {
+public class ApiRecipe {
     @SerializedName("publisher")
     private String publisher;
 

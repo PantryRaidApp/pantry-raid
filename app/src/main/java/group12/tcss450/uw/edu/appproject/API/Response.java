@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.API;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -9,7 +9,7 @@ import java.util.List;
  * Used to hold data from the API.
  * @param <T> generic array type contained by the overall json.
  */
-class Response<T> {
+public class Response<T> {
     @SerializedName("count")
     private int count;
 

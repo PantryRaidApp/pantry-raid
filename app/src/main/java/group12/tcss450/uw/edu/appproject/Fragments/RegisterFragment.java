@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.Activities.MainActivity;
+import group12.tcss450.uw.edu.appproject.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,7 +114,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String theString);
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(String theString);
     }
 }
