@@ -1,18 +1,27 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.Activities;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.Database.Verifier;
+import group12.tcss450.uw.edu.appproject.Fragments.VerifyEmailPasswordFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.ForgotPasswordFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.LoginFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.MainPageFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.RecipeViewFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.RegisterFragment;
+import group12.tcss450.uw.edu.appproject.R;
+
 /**
  * The main activity that handles all fragment transactions into the main functionality of the app.
  */
 public class MainActivity extends AppCompatActivity implements
         MainPageFragment.OnFragmentInteractionListener,
-        LoginFragment.OnFragmentInteractionListener,
         RegisterFragment.OnFragmentInteractionListener,
-        VerifyEmailPassword.OnFragmentInteractionListener,
+        VerifyEmailPasswordFragment.OnFragmentInteractionListener,
         ForgotPasswordFragment.OnFragmentInteractionListener {
     private AsyncTask<String, Integer, String> mTask;
     private DBManager database;
@@ -103,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements
                 code = generateCode(theString);
                 user= theString;
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, new VerifyEmailPassword())
+                        .replace(R.id.fragmentContainer, new VerifyEmailPasswordFragment())
                         .addToBackStack(null)
                         .commit();
             }

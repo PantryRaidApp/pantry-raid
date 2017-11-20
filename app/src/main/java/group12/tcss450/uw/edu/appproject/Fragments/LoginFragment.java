@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject;
+package group12.tcss450.uw.edu.appproject.Fragments;
 
 
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.R;
 
 
 /**
@@ -108,7 +111,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String theString);
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(String theString);
     }
 }
