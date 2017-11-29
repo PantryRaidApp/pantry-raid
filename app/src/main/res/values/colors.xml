@@ -10,7 +10,7 @@
     <color name="colorBackgroundLight">#8EB1C7</color>
     <color name="colorTaskBar">#B02E0C</color>
     <color name="colorFavoritesButton">#EB4511</color>
-    <color name="colorDarkText">#C1BFB5</color>
+    <color name="colorDarkText">#c1bfb5</color>
     <color name="colorText">#FEFDFF</color>
 
     <color name="colorRed">#d52823</color>
