@@ -111,6 +111,7 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
                         errorText.setText(R.string.forgot_password_no_email);
                         errorText.setVisibility(TextView.VISIBLE);
                     }
+                    break;
                 case R.id.registerFragmentButton:
                     mListener.onFragmentInteraction(getString(R.string.register_button));
                     break;
