@@ -51,10 +51,8 @@ public class MainActivity extends AppCompatActivity implements
 
         database = new DBManager();
         try {
-            Object result = database.execute().get(); //so the async task can finish
             Log.d("TEST", Boolean.toString(database.validCredentials("eeeshe", "wow")));
             Log.d("TEST", Boolean.toString(database.validCredentials("eeessdfsdhe", "wow")));
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,7 +2,13 @@ package group12.tcss450.uw.edu.appproject.Database;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,25 +21,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Handles the connection to a database, and methods to query it.
  */
-public class DBManager extends AsyncTask<String, Void, String> {
-
-    private static final Properties properties;
-
-    private static final String URL = "jdbc:mariadb://cssgate.insttech.washington.edu/stanhu";
-
-    private static final String DB = "stanhu";
-
-    private static final String USER = "stanhu";
-
-    private static final String PASS = "BuvCuet";
-
-    static {
-        properties = new Properties();
-        properties.put("user", USER);
-        properties.put("password", PASS);
-    }
-
-    public static Connection connection = null;
+public class DBManager {
 
     /**
      * Returns whether or not the given credentials are valid.
@@ -60,8 +48,8 @@ public class DBManager extends AsyncTask<String, Void, String> {
      * @return True if the user was successfully added.
      */
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
-        AsyncTask<String, Void, String> task = new DBAdder();
-        String response = task.execute(user, pass).get();
+        AsyncTask<String, Void, String> task = new DBQuery();
+        String response = task.execute(user, pass, "addnew").get();
         return response.equals("success");
     }
     /**
@@ -69,87 +57,18 @@ public class DBManager extends AsyncTask<String, Void, String> {
      * @param user The email of the user.
      * @return True If the user was deleted.
      */
-    public boolean deleteUser(String user) throws ExecutionException, InterruptedException {
-        AsyncTask<String, Void, String> task = new DBDeleter();
-        String response = task.execute(user).get();
+    public boolean editUser(String user, String newPass) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBQuery();
+        String response = task.execute(user, newPass, "pwupdater").get();
         return response.equals("success");
     }
 
     /**
-     * Returns a list of users.
-     * @return A list of users.
+     * Executes a 2-parameter query on the database.
+     * Requires 3 arguments - 1 for the php file to use, and then the 2 parameters.
+     * Argument order is arg1, arg2, php file.
      */
-    public static synchronized String getAllUsers() {
-        String query = "SELECT * FROM `User`";
-        Statement statement = null;
-        final StringBuilder sb = new StringBuilder();
-        sb.append("username | pw\n");
-        try {
-            statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(query);
-            while (results.next()) {
-                String user = results.getString(1);
-                String pw = results.getString(2);
-                sb.append(user);
-                sb.append(" ");
-                sb.append(pw);
-                sb.append("\n");
-            }
-        } catch (SQLException e) {
-            System.out.println("Login error: " + e);
-            return ""; //error
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Connects to the database.
-     * @param strings The arguments, which are irrelevant to this method.
-     * @return "success" if the database was successfully connected to.
-     */
-    @Override
-    protected String doInBackground(String... strings) {
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, properties);
-            System.out.println("Successfully connected to the database.");
-            return "success";
-        } catch (Exception e) {
-            System.out.println("Error connecting to the database: "+ e);
-            return "failure";
-        }
-    }
-    /**
-     * Adds a user from the DB.
-     */
-    private class DBDeleter extends AsyncTask<String, Void, String> {
-
-        /**
-         * Adds the given set of credentials to the DB.
-         * @param strings The credentials to check (2 required).
-         * @return "success" if the add was successful.
-         */
-        @Override
-        protected String doInBackground(String... strings) {
-            if (strings.length < 1) {
-                throw new IllegalArgumentException("Need 1 arguments for DBDeleter!");
-            }
-            String query = "DELETE FROM `User` WHERE username =  ?";
-            try {
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, strings[0]);
-                ResultSet results = statement.executeQuery();
-                return "success";
-            } catch (SQLException e) {
-                System.out.println("Login error: " + e);
-                return "fail"; //error
-            }
-        }
-    }
-    /**
-     * Adds a set of credentials to the DB.
-     */
-    private class DBAdder extends AsyncTask<String, Void, String> {
+    private class DBQuery extends AsyncTask<String, Void, String> {
 
         /**
          * Adds the given set of credentials to the DB.
@@ -159,18 +78,39 @@ public class DBManager extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             if (strings.length < 2) {
-                throw new IllegalArgumentException("Need 2 arguments for DBAdder!");
+                throw new IllegalArgumentException("Need 2 arguments for DBQuery!");
             }
-            String query = "INSERT INTO `User` VALUES (?, ?)";
+            String response = "";
+            String args;
+            HttpURLConnection urlConnection = null;
+            String url = "http://cssgate.insttech.washington.edu/~stanhu/" + strings[2] + ".php";
+            args = "?name=" + strings[0]+"&pass="+strings[1].replaceAll(" ", "%20");
             try {
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, strings[0]);
-                statement.setString(2, strings[1]);
-                ResultSet results = statement.executeQuery();
-                return "success";
-            } catch (SQLException e) {
-                System.out.println("Login error: " + e);
-                return "fail"; //error
+                java.net.URL urlObject = new URL(url + args);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+                Log.d("CHECKER", response);
+            } catch (Exception e) {
+                response = "Unable to connect, Reason: "
+                        + e.getMessage();
+                Log.d("CHECKER", response);
+                return response;
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+                Log.d("CHECKER", "Reached the end");
+                if (response.length() > 0 && !response.contains("error")) {
+                    Log.d("CHECKER", "success");
+                    return "found";
+                } else {
+                    Log.d("CHECKER", "fail");
+                    return "not found";
+                }
             }
         }
     }
@@ -195,26 +135,39 @@ public class DBManager extends AsyncTask<String, Void, String> {
             if (strings.length == 0) {
                 throw new IllegalArgumentException("No arguments given to CredentialChecker!");
             }
-            String query = "SELECT * FROM `User` WHERE username = ?";
-            PreparedStatement statement;
+            String response = "";
+            String args;
+            HttpURLConnection urlConnection = null;
+            String url = "http://cssgate.insttech.washington.edu/~stanhu/check.php";
+            if (strings.length == 2)
+                args = "?name=" + strings[0]+"&pass="+strings[1];
+            else
+                args = "?name=" + strings[0];
             try {
-                if (strings.length >= 2) {
-                    query = ("SELECT * FROM `User` WHERE username = ? AND pwd = ?");
-                    statement = connection.prepareStatement(query);
-                    statement.setString(1, strings[0]);
-                    statement.setString(2, strings[1]);
-                } else {
-                    statement = connection.prepareStatement(query);
-                    statement.setString(1, strings[0]);
+                java.net.URL urlObject = new URL(url + args);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
                 }
-                ResultSet results = statement.executeQuery();
-                while (results.next()) {
+                Log.d("CHECKER", response);
+            } catch (Exception e) {
+                response = "Unable to connect, Reason: "
+                        + e.getMessage();
+                Log.d("CHECKER", response);
+                return response;
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+                Log.d("CHECKER", "Reached the end");
+                if (response.length() > 0 && !response.contains("Fail")) {
+                    Log.d("CHECKER", "Found");
                     return "found";
+                } else {
+                    return "not found";
                 }
-                return "not found";
-            } catch (SQLException e) {
-                System.out.println("Login error: " + e);
-                return "error"; //error
             }
         }
     }

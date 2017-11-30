@@ -64,12 +64,7 @@ public class ForgotPasswordFragment extends Fragment implements View.OnClickList
             if(pword.getText().toString().equals(rePword.getText().toString())){
                 if(pword.getText().toString().length() > 5){
                     try{
-                        db.deleteUser(MainActivity.getUserName());
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                    try{
-                        db.addNewUser(MainActivity.getUserName(), pword.getText().toString());
+                        db.editUser(MainActivity.getUserName(), pword.getText().toString());
                     } catch(Exception e){
                         e.printStackTrace();
                     }
