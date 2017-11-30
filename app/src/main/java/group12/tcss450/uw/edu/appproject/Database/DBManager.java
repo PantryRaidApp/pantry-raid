@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +24,28 @@ import java.util.concurrent.ExecutionException;
  * Handles the connection to a database, and methods to query it.
  */
 public class DBManager {
+
+    //the names of php scripts to execute various functions.
+
+    /**
+     * The script that verifies whether or not a set of credentials is valid.
+     */
+    private static final String VERIFY = "check";
+
+    /**
+     * The script that adds a set of credentials to the database.
+     */
+    private static final String ADD = "addnew";
+
+    /**
+     * The script that changes the password of a given user to a new value.
+     */
+    private static final String CHANGE = "pwUpdater";
+
+    /**
+     * The script that gets ingredients that match a query.
+     */
+    private static final String INGRED_SEARCH = "getingredient";
 
     /**
      * Returns whether or not the given credentials are valid.
@@ -36,9 +60,15 @@ public class DBManager {
      * @return Whether or not the credentials exist in the database.
      */
     public boolean validCredentials(String... strings) throws ExecutionException, InterruptedException {
-        AsyncTask<String, Void, String> task = new CredentialChecker();
-        String response = task.execute(strings).get();
-        return response.equals("found");
+        AsyncTask<String, Void, String> task = new DBQuery();
+        String response;
+        if (strings.length == 1)
+            response = task.execute(strings[0], VERIFY).get();
+        else if (strings.length == 2)
+            response = task.execute(strings[0], strings[1], VERIFY).get();
+        else
+            return false; //invalid input
+        return response.equals("success");
     }
 
     /**
@@ -49,42 +79,58 @@ public class DBManager {
      */
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBQuery();
-        String response = task.execute(user, pass, "addnew").get();
+        String response = task.execute(user, pass, ADD).get();
         return response.equals("success");
     }
     /**
-     * Deletes the user from the db.
+     * Edits a user in the db, changing their password to the given value.
      * @param user The email of the user.
-     * @return True If the user was deleted.
+     * @param newPass The proposed new password.
+     * @return True If the user's password was changed successfully.
      */
     public boolean editUser(String user, String newPass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBQuery();
-        String response = task.execute(user, newPass, "pwupdater").get();
+        String response = task.execute(user, newPass, CHANGE).get();
         return response.equals("success");
     }
 
     /**
-     * Executes a 2-parameter query on the database.
-     * Requires 3 arguments - 1 for the php file to use, and then the 2 parameters.
-     * Argument order is arg1, arg2, php file.
+     * Returns an array of ingredients that match the given query.
+     * @param query The email of the user.
+     * @return True If the user was deleted.
+     */
+    public String[] getIngredients(String query) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBGet();
+        String[] response = task.execute(query, INGRED_SEARCH).get().split("#");
+        return response;
+    }
+
+    /**
+     * Executes a query on the database.
+     * Requires 2+ arguments - 1 for the php file to use, and then 1+ parameters.
+     * Argument order is args1... argsN, php file.
      */
     private class DBQuery extends AsyncTask<String, Void, String> {
 
         /**
-         * Adds the given set of credentials to the DB.
+         * Executes the query on the db.
          * @param strings The credentials to check (2 required).
-         * @return "success" if the add was successful.
+         * @return Varies, depending on the php script sent.
          */
         @Override
         protected String doInBackground(String... strings) {
             if (strings.length < 2) {
-                throw new IllegalArgumentException("Need 2 arguments for DBQuery!");
+                throw new IllegalArgumentException("Need 2+ arguments for DBQuery!");
             }
             String response = "";
-            String args;
+            String args = "";
             HttpURLConnection urlConnection = null;
-            String url = "http://cssgate.insttech.washington.edu/~stanhu/" + strings[2] + ".php";
-            args = "?name=" + strings[0]+"&pass="+strings[1].replaceAll(" ", "%20");
+            String url = "http://cssgate.insttech.washington.edu/~stanhu/" + strings[strings.length - 1] + ".php";
+            if (strings.length == 2)
+                args = "?name=" + strings[0];
+            else if (strings.length == 3)
+                args = "?name=" + strings[0]+"&pass="+strings[1].replaceAll(" ", "%20");
+            Log.d("QUERY", url + args);
             try {
                 java.net.URL urlObject = new URL(url + args);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -94,7 +140,6 @@ public class DBManager {
                 while ((s = buffer.readLine()) != null) {
                     response += s;
                 }
-                Log.d("CHECKER", response);
             } catch (Exception e) {
                 response = "Unable to connect, Reason: "
                         + e.getMessage();
@@ -103,46 +148,43 @@ public class DBManager {
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
-                Log.d("CHECKER", "Reached the end");
                 if (response.length() > 0 && !response.contains("error")) {
                     Log.d("CHECKER", "success");
-                    return "found";
+                    return "success";
                 } else {
                     Log.d("CHECKER", "fail");
-                    return "not found";
+                    return "fail";
                 }
             }
         }
     }
 
     /**
-     * Checks whether the given credentials exist.
-     * Can be called with 1 or 2 arguments, which are username and password
-     * respectively. Used to check if a username exists, or if a username/password
-     * combo is valid.
-     * Returns "found" is an entry is found, "not found" if not found, and "error"
-     * if an error occurs.
+     * Executes a query on the database, returning the result.
+     * Requires 2+ arguments - 1 for the php file to use, and then 1+ parameters.
+     * Argument order is args1... argsN, php file.
      */
-    private class CredentialChecker extends AsyncTask<String, Void, String> {
+    private class DBGet extends AsyncTask<String, Void, String> {
 
         /**
-         * Checks for the given credentials in the DB.
-         * @param strings The credentials to check - up to 2, username and password.
-         * @return "found" if they were found, false otherwise.
+         * Executes the query on the db.
+         * @param strings The credentials to check (2 required).
+         * @return Varies, depending on the php script sent.
          */
         @Override
         protected String doInBackground(String... strings) {
-            if (strings.length == 0) {
-                throw new IllegalArgumentException("No arguments given to CredentialChecker!");
+            if (strings.length < 2) {
+                throw new IllegalArgumentException("Need 2+ arguments for DBGet!");
             }
             String response = "";
-            String args;
+            String args = "";
             HttpURLConnection urlConnection = null;
-            String url = "http://cssgate.insttech.washington.edu/~stanhu/check.php";
+            String url = "http://cssgate.insttech.washington.edu/~stanhu/" + strings[strings.length - 1] + ".php";
             if (strings.length == 2)
-                args = "?name=" + strings[0]+"&pass="+strings[1];
-            else
                 args = "?name=" + strings[0];
+            else if (strings.length == 3)
+                args = "?name=" + strings[0]+"&pass="+strings[1].replaceAll(" ", "%20");
+            Log.d("QUERY", url + args);
             try {
                 java.net.URL urlObject = new URL(url + args);
                 urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -152,7 +194,6 @@ public class DBManager {
                 while ((s = buffer.readLine()) != null) {
                     response += s;
                 }
-                Log.d("CHECKER", response);
             } catch (Exception e) {
                 response = "Unable to connect, Reason: "
                         + e.getMessage();
@@ -161,13 +202,7 @@ public class DBManager {
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
-                Log.d("CHECKER", "Reached the end");
-                if (response.length() > 0 && !response.contains("Fail")) {
-                    Log.d("CHECKER", "Found");
-                    return "found";
-                } else {
-                    return "not found";
-                }
+                return response;
             }
         }
     }

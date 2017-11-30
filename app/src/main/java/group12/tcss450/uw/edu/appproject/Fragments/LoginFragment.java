@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import group12.tcss450.uw.edu.appproject.Activities.MainActivity;
 import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
@@ -66,7 +67,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                         e.printStackTrace();
                     }
                     if (exists) {
-                     mListener.onFragmentInteraction(getString(R.string.skip_button));
+                         MainActivity.setUserandPassword(login.getText().toString().trim().toLowerCase(),
+                                 password.getText().toString());
+                         mListener.onFragmentInteraction(getString(R.string.skip_button));
                     } else {
                         mErrorText.setText(R.string.invalid_username_password);
                         mErrorText.setVisibility(TextView.VISIBLE);

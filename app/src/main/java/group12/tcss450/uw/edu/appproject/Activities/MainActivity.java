@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.Arrays;
+
 import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.Database.Verifier;
 import group12.tcss450.uw.edu.appproject.Fragments.VerifyEmailPasswordFragment;
@@ -53,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements
         try {
             Log.d("TEST", Boolean.toString(database.validCredentials("eeeshe", "wow")));
             Log.d("TEST", Boolean.toString(database.validCredentials("eeessdfsdhe", "wow")));
+            Log.d("TEST", Arrays.toString(database.getIngredients("mush")));
         } catch (Exception e) {
+            Log.d("TEST!!", "asplode");
             e.printStackTrace();
         }
 
