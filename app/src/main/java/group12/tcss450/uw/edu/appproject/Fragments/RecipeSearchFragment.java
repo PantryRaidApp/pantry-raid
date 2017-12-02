@@ -2,6 +2,7 @@ package group12.tcss450.uw.edu.appproject.Fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
+import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
@@ -34,7 +37,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
 
     ArrayList<String> mIngredientList;
     ArrayAdapter<String> mAdapter;
-    EditText mIngredientSearchBar;
+    AutoCompleteTextView mIngredientSearchBar;
     ListView mListView;
 
     public RecipeSearchFragment() {
@@ -50,7 +53,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)  {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipe_search, container, false);
 
@@ -71,10 +74,21 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         b = v.findViewById(R.id.clearButton);
         b.setOnClickListener(this);
 
-        mIngredientSearchBar = (EditText)v.findViewById(R.id.searchBar);
+        mIngredientSearchBar = (AutoCompleteTextView) v.findViewById(R.id.searchBar);
+        String[] ingreds = new String[0];
+        try {
+            ingreds = DBManager.getIngredients();
+        } catch (Exception e) {
+            Log.d(TAG, "db error in search");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.R.layout.simple_dropdown_item_1line, ingreds);
+        mIngredientSearchBar.setAdapter(adapter);
+
         mIngredientSearchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
                 Log.d(TAG, "onKey: pressed");
                 //When enter is pressed the current entered text is added to the ingredient list
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
@@ -87,6 +101,8 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
+
+        mIngredientSearchBar.setDropDownBackgroundResource(R.color.colorBackgroundDark);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

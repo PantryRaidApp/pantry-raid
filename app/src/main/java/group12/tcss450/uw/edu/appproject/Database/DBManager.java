@@ -45,6 +45,11 @@ public class DBManager {
     /**
      * The script that gets ingredients that match a query.
      */
+    private static final String INGRED_SEARCH_ALL = "getallingredient";
+
+    /**
+     * The script that gets ingredients that match a query.
+     */
     private static final String INGRED_SEARCH = "getingredient";
 
     /**
@@ -95,12 +100,25 @@ public class DBManager {
     }
 
     /**
-     * Returns an array of ingredients that match the given query.
-     * @param query The email of the user.
-     * @return True If the user was deleted.
+     * Returns an array of all ingredients in the database.
+     * @return A list of the ingredients.
      */
-    public String[] getIngredients(String query) throws ExecutionException, InterruptedException {
+    public static String[] getIngredients() throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBGet();
+
+        String[] response = task.execute(INGRED_SEARCH_ALL).get().split("#");
+        return response;
+    }
+
+    /**
+     * Returns an array of ingredients that match the given query.
+     * @param query The search term.
+     * @return A list of the ingredients.
+     */
+    public static String[] getIngredients(String query) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBGet();
+        query = query.toLowerCase().trim();
+
         String[] response = task.execute(query, INGRED_SEARCH).get().split("#");
         return response;
     }
@@ -148,6 +166,9 @@ public class DBManager {
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
+                if (strings[strings.length - 1].equals(VERIFY)) {
+                   return response.toLowerCase();
+                }
                 if (response.length() > 0 && !response.contains("error")) {
                     Log.d("CHECKER", "success");
                     return "success";
@@ -161,21 +182,18 @@ public class DBManager {
 
     /**
      * Executes a query on the database, returning the result.
-     * Requires 2+ arguments - 1 for the php file to use, and then 1+ parameters.
+     * Requires 1+ arguments - 1 for the php file to use, and then 0+ parameters.
      * Argument order is args1... argsN, php file.
      */
-    private class DBGet extends AsyncTask<String, Void, String> {
+    private static class DBGet extends AsyncTask<String, Void, String> {
 
         /**
          * Executes the query on the db.
-         * @param strings The credentials to check (2 required).
+         * @param strings The parameters.
          * @return Varies, depending on the php script sent.
          */
         @Override
         protected String doInBackground(String... strings) {
-            if (strings.length < 2) {
-                throw new IllegalArgumentException("Need 2+ arguments for DBGet!");
-            }
             String response = "";
             String args = "";
             HttpURLConnection urlConnection = null;

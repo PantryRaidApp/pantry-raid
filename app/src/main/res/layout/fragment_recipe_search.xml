@@ -28,7 +28,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/searchBar"
                 style="@style/Widget.AppCompat.AutoCompleteTextView"
                 android:inputType="textShortMessage"
@@ -40,6 +40,7 @@
                 android:hint="@string/recipe_search_bar_hint"
                 android:textColorHint="@color/colorDarkText"
                 android:background="@android:color/transparent"
+
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/searchIcon"

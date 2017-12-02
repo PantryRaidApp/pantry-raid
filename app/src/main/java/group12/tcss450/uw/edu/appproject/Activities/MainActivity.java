@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -101,8 +102,9 @@ public class MainActivity extends AppCompatActivity implements
                                 .addToBackStack(null)
                                 .commit();
                     }
-                } else
-                    Log.d("TEST", "invalid code. print something later");
+                } else {
+                    Toast.makeText(this, "Invalid confirmation code. Please try again.", Toast.LENGTH_SHORT).show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
