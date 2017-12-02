@@ -34,5 +34,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="recipe_search_bar_hint">Add ingredient</string>
+    <string name="no_recipes_found">No recipes were found. Remove some ingredients and try again.</string>
+    <string name="search_for_recipes">Search for Recipes</string>
+    <string name="clear_ingredients_from_search">Clear Ingredients</string>
 
 </resources>
