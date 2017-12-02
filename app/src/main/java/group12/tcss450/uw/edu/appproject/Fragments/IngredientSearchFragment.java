@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,14 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.R;
 
@@ -29,15 +25,31 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeSearchFragment extends Fragment implements View.OnClickListener{
-    private FavoritesFragment.OnFragmentInteractionListener mListener;
+public class IngredientSearchFragment extends Fragment implements View.OnClickListener{
 
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * The list of ingredients the user is searching for.
+     */
     ArrayList<String> mIngredientList;
+
+    /**
+     * Adapter used for the ListView.
+     */
     ArrayAdapter<String> mAdapter;
+
+    /**
+     * Search bar for entering ingredients.
+     */
     EditText mIngredientSearchBar;
+
+    /**
+     * The ListView that holds the ingredients being searched for.
+     */
     ListView mListView;
 
-    public RecipeSearchFragment() {
+    public IngredientSearchFragment() {
         // Required empty public constructor
     }
 
@@ -52,7 +64,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_recipe_search, container, false);
+        View v = inflater.inflate(R.layout.fragment_ingredient_search, container, false);
 
         mAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 R.layout.recipe_ingredient, mIngredientList);
@@ -72,6 +84,9 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         b.setOnClickListener(this);
 
         mIngredientSearchBar = (EditText)v.findViewById(R.id.searchBar);
+
+        //Enter works to add an ingredient to the list
+        //ONLY WORKS FOR CERTAIN KEYBOARDS
         mIngredientSearchBar.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -83,15 +98,14 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
                         return true;
                     }
                 }
-
                 return false;
             }
         });
 
+        //Removes individually pressed ingredients
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.wtf("WTF", "onItemClick worked");
                 String ingredient = mIngredientList.get(i);
                 Log.d(TAG, "onItemClick: remove" + ingredient);
                 removeItemFromIngredientList(ingredient);
@@ -132,6 +146,10 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    /**
+     * On button pressed.
+     * @param uri
+     */
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -142,7 +160,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof FavoritesFragment.OnFragmentInteractionListener) {
-            mListener = (FavoritesFragment.OnFragmentInteractionListener) context;
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

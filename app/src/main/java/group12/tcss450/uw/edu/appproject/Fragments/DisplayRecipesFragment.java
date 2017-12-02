@@ -1,6 +1,5 @@
 package group12.tcss450.uw.edu.appproject.Fragments;
 
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,9 +25,9 @@ import group12.tcss450.uw.edu.appproject.API.Response;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link DisplayRecipesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment to display a list of recipes produced by the API.
+ * This class handles the async task to grab data from the API, then parses and displays
+ * that data for users.
  */
 public class DisplayRecipesFragment extends Fragment{
     //Strings used to store data for calling the API

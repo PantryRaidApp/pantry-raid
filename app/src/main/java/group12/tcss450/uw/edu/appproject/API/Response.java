@@ -1,6 +1,5 @@
 package group12.tcss450.uw.edu.appproject.API;
 
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

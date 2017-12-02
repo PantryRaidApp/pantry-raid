@@ -30,6 +30,7 @@
 
             <EditText
                 android:id="@+id/searchBar"
+                android:maxLength="30"
                 style="@style/Widget.AppCompat.AutoCompleteTextView"
                 android:inputType="textShortMessage"
                 android:layout_width="0dp"

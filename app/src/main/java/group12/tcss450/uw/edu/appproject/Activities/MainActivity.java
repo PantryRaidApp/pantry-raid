@@ -18,7 +18,8 @@ import group12.tcss450.uw.edu.appproject.Fragments.RegisterFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * The main activity that handles all fragment transactions into the main functionality of the app.
+ * The main activity that handles all fragment transactions and activities.
+ * This is the entry point into the app no matter if a user is already logged in.
  */
 public class MainActivity extends AppCompatActivity implements
         MainPageFragment.OnFragmentInteractionListener,
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         database = new DBManager();
         try {
             Log.d("TEST", Boolean.toString(database.validCredentials("eeeshe", "wow")));
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (theString.equals(getString(R.string.forgot_password_button)) ){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new LoginFragment())
+                    .replace(R.id.fragmentContainer, new ForgotPasswordFragment())
                     .addToBackStack(null)
                     .commit();
         } else if (theString.startsWith("verify:")){
@@ -130,7 +132,11 @@ public class MainActivity extends AppCompatActivity implements
         user = theUser;
         password = thePassword;
     }
-          
+
+    /**
+     * Basic getter for user email.
+     * @return the user's email.
+     */
     public static String getUserName() {
         return user;
     }

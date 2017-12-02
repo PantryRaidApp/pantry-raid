@@ -24,11 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.Fragments.FavoritesFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.RecipeSearchFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.IngredientSearchFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
+/**
+ * The "main page" for the app.
+ * This tabbed activity hold functionality to search for recipes based on ingredients,
+ * while also providing a menu option for saved favorites.
+ */
 public class TabbedPageActivity extends AppCompatActivity implements
-        RecipeSearchFragment.OnFragmentInteractionListener,
+        IngredientSearchFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener {
 
     /**
@@ -46,7 +51,14 @@ public class TabbedPageActivity extends AppCompatActivity implements
      */
     private ViewPager mViewPager;
 
-    private RecipeSearchFragment recipeSearchFragment;
+    /**
+     * The fragment that provides ingredient search functionality.
+     */
+    private IngredientSearchFragment ingredientSearchFragment;
+
+    /**
+     * The fragment that displays user favorites.
+     */
     private FavoritesFragment favoritesFragment;
 
     @Override
@@ -67,7 +79,8 @@ public class TabbedPageActivity extends AppCompatActivity implements
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        recipeSearchFragment = new RecipeSearchFragment();
+        //Instantiate both fragments after the tabs are set up
+        ingredientSearchFragment = new IngredientSearchFragment();
         favoritesFragment = new FavoritesFragment();
     }
 
@@ -130,30 +143,6 @@ public class TabbedPageActivity extends AppCompatActivity implements
             View rootView = inflater.inflate(R.layout.main_page_activity_tab, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            ListViewCompat listViewCompat = rootView.findViewById(R.id.ingredientList);
-            listViewCompat.setAdapter(new BaseAdapter() {
-                List<String> items = new ArrayList<>();
-
-                @Override
-                public int getCount() {
-                    return items.size();
-                }
-
-                @Override
-                public Object getItem(int i) {
-                    return null;
-                }
-
-                @Override
-                public long getItemId(int i) {
-                    return 0;
-                }
-
-                @Override
-                public View getView(int i, View view, ViewGroup viewGroup) {
-                    return null;
-                }
-            });
             return rootView;
         }
     }
@@ -173,7 +162,7 @@ public class TabbedPageActivity extends AppCompatActivity implements
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return recipeSearchFragment;
+                    return ingredientSearchFragment;
                 case 1:
                     return favoritesFragment;
             }

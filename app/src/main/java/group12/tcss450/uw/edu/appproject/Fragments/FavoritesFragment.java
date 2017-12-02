@@ -11,12 +11,9 @@ import android.view.ViewGroup;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavoritesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavoritesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment to display user saved favorites.
+ * A registered user has their favorites saved in the database, all other users' favorites are
+ * saved locally.
  */
 public class FavoritesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

@@ -17,7 +17,6 @@ import group12.tcss450.uw.edu.appproject.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
  * Functionality for when a user forgets their password.
  */
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener{
