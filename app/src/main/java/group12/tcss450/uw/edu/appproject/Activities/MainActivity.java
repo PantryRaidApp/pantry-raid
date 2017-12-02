@@ -1,5 +1,6 @@
 package group12.tcss450.uw.edu.appproject.Activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import group12.tcss450.uw.edu.appproject.Fragments.VerifyEmailPasswordFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.ForgotPasswordFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.LoginFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.MainPageFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.RecipeViewFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.RegisterFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
@@ -77,10 +77,8 @@ public class MainActivity extends AppCompatActivity implements
                     .addToBackStack(null)
                     .commit();
         } else if (theString.equals(getString(R.string.skip_button))){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new RecipeViewFragment())
-                    .addToBackStack(null)
-                    .commit();
+            Intent intent = new Intent(this, TabbedPageActivity.class);
+            startActivity(intent);
 
         } else if (theString.equals(getString(R.string.forgot_password_button)) ){
             getSupportFragmentManager().beginTransaction()

@@ -13,7 +13,8 @@
     <color name="colorDarkText">#c1bfb5</color>
     <color name="colorText">#FEFDFF</color>
 
-    <color name="colorRed">#d52823</color>
+    <color name="colorRed">#ed0202</color>
+    <color name="colorGreen">#14e00d</color>
 
     <color name="aTestColor">#ABCDEF</color>
 
