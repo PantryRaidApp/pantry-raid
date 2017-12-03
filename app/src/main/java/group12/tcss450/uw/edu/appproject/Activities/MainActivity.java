@@ -2,6 +2,7 @@ package group12.tcss450.uw.edu.appproject.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,6 @@ import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.Database.Verifier;
 import group12.tcss450.uw.edu.appproject.Fragments.VerifyEmailPasswordFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.ForgotPasswordFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.LoginFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.MainPageFragment;
 import group12.tcss450.uw.edu.appproject.Fragments.RegisterFragment;
 import group12.tcss450.uw.edu.appproject.R;
@@ -78,13 +78,15 @@ public class MainActivity extends AppCompatActivity implements
                     .addToBackStack(null)
                     .commit();
         } else if (theString.equals(getString(R.string.skip_button))){
+            clearBackStack();
             Intent intent = new Intent(this, TabbedPageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if (theString.equals(getString(R.string.forgot_password_button)) ){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new LoginFragment())
-                    .addToBackStack(null)
+                    .replace(R.id.fragmentContainer, new MainPageFragment())
                     .commit();
         } else if (theString.startsWith("verify:")){
             try {
@@ -93,8 +95,7 @@ public class MainActivity extends AppCompatActivity implements
                     if(password !=null) {
                         database.addNewUser(user, password);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragmentContainer, new LoginFragment())
-                                .addToBackStack(null)
+                                .replace(R.id.fragmentContainer, new MainPageFragment())
                                 .commit();
                     }else{
                         getSupportFragmentManager().beginTransaction()
@@ -144,6 +145,17 @@ public class MainActivity extends AppCompatActivity implements
         }
         else {
             super.onBackPressed();
+        }
+    }
+
+    /**
+     * Clears all fragments from the back stack when starting the TabbedPageActivity.
+     */
+    private void clearBackStack() {
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
     }
 }

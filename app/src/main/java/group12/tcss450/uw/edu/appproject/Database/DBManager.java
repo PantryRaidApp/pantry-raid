@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Handles the connection to a database, and methods to query it.
  */
@@ -73,6 +75,7 @@ public class DBManager {
             response = task.execute(strings[0], strings[1], VERIFY).get();
         else
             return false; //invalid input
+        Log.d(TAG, "validCredentials: success");
         return response.equals("success");
     }
 
@@ -85,6 +88,7 @@ public class DBManager {
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBQuery();
         String response = task.execute(user, pass, ADD).get();
+        Log.d(TAG, "addNewUser: success");
         return response.equals("success");
     }
     /**
@@ -96,6 +100,7 @@ public class DBManager {
     public boolean editUser(String user, String newPass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBQuery();
         String response = task.execute(user, newPass, CHANGE).get();
+        Log.d(TAG, "editUser: success");
         return response.equals("success");
     }
 
