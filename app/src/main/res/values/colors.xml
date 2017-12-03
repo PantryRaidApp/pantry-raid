@@ -6,6 +6,7 @@
     <color name="colorAccent23534343453">#FF4082</color>
     <color name="colorAccentOther">#FF4097</color>
 
+    <color name="colorAutocomplete">#070816</color>
     <color name="colorBackgroundDark">#142b51</color>
     <color name="colorBackgroundLight">#8EB1C7</color>
     <color name="colorTaskBar">#B02E0C</color>

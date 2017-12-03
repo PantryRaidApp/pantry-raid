@@ -40,7 +40,7 @@ public class DBManager {
     /**
      * The script that changes the password of a given user to a new value.
      */
-    private static final String CHANGE = "pwUpdater";
+    private static final String CHANGE = "pwupdater";
 
     /**
      * The script that gets ingredients that match a query.

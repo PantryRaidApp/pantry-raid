@@ -18,6 +18,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.security.Key;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
+import group12.tcss450.uw.edu.appproject.Util.SimilarityAdapter;
 
 import static android.content.ContentValues.TAG;
 
@@ -81,8 +85,9 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         } catch (Exception e) {
             Log.d(TAG, "db error in search");
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                android.R.layout.simple_dropdown_item_1line, ingreds);
+        SimilarityAdapter adapter = new SimilarityAdapter(getContext());
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.R.layout.simple_dropdown_item_1line, ingreds);*/
         mIngredientSearchBar.setAdapter(adapter);
 
         mIngredientSearchBar.setOnKeyListener(new View.OnKeyListener() {
@@ -101,8 +106,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
                 return false;
             }
         });
-
-        mIngredientSearchBar.setDropDownBackgroundResource(R.color.colorBackgroundDark);
+        mIngredientSearchBar.setDropDownBackgroundResource(R.color.colorAutocomplete);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
