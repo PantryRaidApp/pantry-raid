@@ -1,6 +1,6 @@
 package group12.tcss450.uw.edu.appproject.Activities;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.Fragments.FavoritesFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.RecipeSearchFragment;
+import group12.tcss450.uw.edu.appproject.Fragments.IngredientSearchFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
+import static android.content.ContentValues.TAG;
+
 public class TabbedPageActivity extends AppCompatActivity implements
-        RecipeSearchFragment.OnFragmentInteractionListener,
+        IngredientSearchFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener {
 
     /**
@@ -46,7 +49,7 @@ public class TabbedPageActivity extends AppCompatActivity implements
      */
     private ViewPager mViewPager;
 
-    private RecipeSearchFragment recipeSearchFragment;
+    private IngredientSearchFragment ingredientSearchFragment;
     private FavoritesFragment favoritesFragment;
 
     @Override
@@ -67,7 +70,7 @@ public class TabbedPageActivity extends AppCompatActivity implements
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        recipeSearchFragment = new RecipeSearchFragment();
+        ingredientSearchFragment = new IngredientSearchFragment();
         favoritesFragment = new FavoritesFragment();
     }
 
@@ -80,8 +83,30 @@ public class TabbedPageActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(String theString) {
 
+    }
+
+    @Override
+    public void onFragmentInteraction(ArrayList<String> theIngredientList) {
+        //List only send back from IngredientSearchFragment
+        Log.d(TAG, "onFragmentInteraction: return from IngredientSearchFragment");
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("ingredientList", theIngredientList);
+
+        Intent intent = new Intent(this, DisplayRecipeResultsActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+        /*
+        DisplayRecipesFragment displayRecipesFragment = new DisplayRecipesFragment();
+        displayRecipesFragment.setArguments(bundle);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, displayRecipesFragment)
+                .addToBackStack(null)
+                .commit();
+        */
     }
 
     @Override
@@ -178,7 +203,7 @@ public class TabbedPageActivity extends AppCompatActivity implements
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return recipeSearchFragment;
+                    return ingredientSearchFragment;
                 case 1:
                     return favoritesFragment;
             }

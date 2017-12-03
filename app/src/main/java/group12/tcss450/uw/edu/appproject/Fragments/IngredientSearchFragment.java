@@ -2,11 +2,9 @@ package group12.tcss450.uw.edu.appproject.Fragments;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ListViewCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,17 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.Database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
@@ -36,15 +27,16 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeSearchFragment extends Fragment implements View.OnClickListener{
-    private FavoritesFragment.OnFragmentInteractionListener mListener;
+public class IngredientSearchFragment extends Fragment implements View.OnClickListener{
 
-    ArrayList<String> mIngredientList;
-    ArrayAdapter<String> mAdapter;
-    AutoCompleteTextView mIngredientSearchBar;
-    ListView mListView;
+    private OnFragmentInteractionListener mListener;
 
-    public RecipeSearchFragment() {
+    private ArrayList<String> mIngredientList;
+    private ArrayAdapter<String> mAdapter;
+    private AutoCompleteTextView mIngredientSearchBar;
+    private ListView mListView;
+
+    public IngredientSearchFragment() {
         // Required empty public constructor
     }
 
@@ -53,16 +45,15 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIngredientList = new ArrayList<>();
+        mAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                R.layout.recipe_ingredient, mIngredientList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)  {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_recipe_search, container, false);
-
-        mAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                R.layout.recipe_ingredient, mIngredientList);
+        View v = inflater.inflate(R.layout.fragment_ingredient_search, container, false);
 
         if (mListView == null) {
             mListView = (ListView)v.findViewById(R.id.ingredientList);
@@ -111,7 +102,6 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.wtf("WTF", "onItemClick worked");
                 String ingredient = mIngredientList.get(i);
                 Log.d(TAG, "onItemClick: remove" + ingredient);
                 removeItemFromIngredientList(ingredient);
@@ -152,17 +142,11 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FavoritesFragment.OnFragmentInteractionListener) {
-            mListener = (FavoritesFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -182,8 +166,8 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
                 addIngredientToList();
                 break;
             case R.id.doneButton:
-                //TODO send ingredients back to activity
-                //So it goes to DisplayRecipesFragment
+                Log.d(TAG, "onClick: done, start search");
+                mListener.onFragmentInteraction(mIngredientList);
                 break;
             case R.id.clearButton:
                 clearIngredientList();
@@ -202,7 +186,7 @@ public class RecipeSearchFragment extends Fragment implements View.OnClickListen
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(ArrayList<String> theIngredientList);
     }
 
 }

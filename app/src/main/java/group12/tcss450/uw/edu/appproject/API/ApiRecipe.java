@@ -99,6 +99,7 @@ public class ApiRecipe {
 
     @Override
     public String toString() {
-        return title;
+        String paddingForSecondLine = "        ";
+        return title + "\n" + paddingForSecondLine + publisher;
     }
 }

@@ -14,6 +14,8 @@
     <color name="colorDarkText">#c1bfb5</color>
     <color name="colorText">#FEFDFF</color>
 
+    <color name="colorListViewBackground">#224b8e</color>
+
     <color name="colorRed">#ed0202</color>
     <color name="colorGreen">#14e00d</color>
 

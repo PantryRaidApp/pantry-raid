@@ -1,12 +1,18 @@
 package group12.tcss450.uw.edu.appproject.Fragments;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,19 +24,35 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import group12.tcss450.uw.edu.appproject.API.ApiRecipe;
 import group12.tcss450.uw.edu.appproject.API.ApiRecipeResponse;
 import group12.tcss450.uw.edu.appproject.API.Response;
 import group12.tcss450.uw.edu.appproject.R;
 
+import static android.content.ContentValues.TAG;
+
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link DisplayRecipesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment that displays the top 30 recipes that return from the entered ingredients.
  */
-public class DisplayRecipesFragment extends Fragment{
+public class DisplayRecipesFragment extends Fragment implements View.OnClickListener{
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * The list of recipes returned from the API.
+     */
+    private ArrayList<ApiRecipe> mRecipeList;
+
+    /**
+     * The adapter used for the recipes.
+     */
+    private ArrayAdapter<ApiRecipe> mRecipeAdapter;
+
+    /**
+     * The ListView where the list of recipes is displayed.
+     */
+    private ListView mListView;
+
     //Strings used to store data for calling the API
     private String myApiKey;
     private String myApiCall;
@@ -57,6 +79,7 @@ public class DisplayRecipesFragment extends Fragment{
      * @return A new instance of fragment DisplayRecipesFragment.
      */
     public static DisplayRecipesFragment newInstance(ArrayList<String> ingredientList) {
+        Log.d(TAG, "newInstance:");
         DisplayRecipesFragment fragment = new DisplayRecipesFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_PARAM, ingredientList);
@@ -69,7 +92,24 @@ public class DisplayRecipesFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mIngredientList = getArguments().getStringArrayList(ARG_PARAM);
+            Log.d(TAG, "ingredientList" + mIngredientList.toString());
         }
+        mRecipeList = new ArrayList<>();
+        mRecipeAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                R.layout.recipe_result, mRecipeList);
+
+        myApiKey = getString(R.string.food2ForkKey);
+        myApiCall = "http://food2fork.com/api/search?key=" + myApiKey + "&q=";
+        myBuilder = new GsonBuilder();
+        myGson = myBuilder.create();
+
+        //Form the API get call
+        createApiCallFromIngredients();
+
+        //Create the async task to call the API
+        AsyncTask<String, Void, String> task = new GetWebServiceTask();
+        task.execute(myApiCall);
+
     }
 
     @Override
@@ -77,12 +117,69 @@ public class DisplayRecipesFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_display_recipes, container, false);
-        myApiKey = getString(R.string.food2ForkKey);
-        myApiCall = "http://food2fork.com/api/search?key=" + myApiKey + "&q=";
-        myBuilder = new GsonBuilder();
-        myBuilder.setPrettyPrinting();
-        myGson = myBuilder.create();
+
+        if (mListView == null) {
+            mListView = (ListView)v.findViewById(R.id.recipe_list_view);
+        }
+        mListView.setAdapter(mRecipeAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "onItemClick: a recipe was selected");
+            }
+        });
+
         return v;
+    }
+
+    private void createApiCallFromIngredients() {
+        //For every ingredient:
+        //replace spaces with '%20' and add to APIcall
+        for (String ingredient: mIngredientList) {
+            ingredient = ingredient.replaceAll(" ", "%20");
+            myApiCall += ingredient + ',';
+        }
+
+        if (myApiCall.endsWith(",")) {
+            myApiCall = myApiCall.substring(0, myApiCall.length() - 1);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String theString);
     }
 
     //http://food2fork.com/api/search?key=e60347278aefc1439128a6281dab7812&q=shredded%20chicken,onion,green%20pepper
@@ -91,9 +188,6 @@ public class DisplayRecipesFragment extends Fragment{
      * Handles the webservice methods for a GET call to the api.
      */
     private class GetWebServiceTask extends AsyncTask<String, Void, String> {
-        private final String SERVICE = "_get.php";
-
-
         @Override
         protected String doInBackground(String... strings) {
             HttpURLConnection urlConnection = null;
@@ -130,8 +224,18 @@ public class DisplayRecipesFragment extends Fragment{
                 return;
             }
             Response<ApiRecipe> recipeResponse = myGson.fromJson(result, ApiRecipeResponse.class);
-            String recipeString = recipeResponse.getRecipes().toString();
-            //recipeString = recipeString.replaceAll(",", "\n");
+            Log.d(TAG, "recipeResponse:" + recipeResponse.getRecipes().toString());
+
+            for (ApiRecipe recipe: recipeResponse.getRecipes()) {
+                mRecipeList.add(recipe);
+            }
+            Log.d(TAG, "mRecipeList: " + mRecipeList.toString());
+            mRecipeAdapter.notifyDataSetChanged();
+
+            if (mRecipeList.size() <= 0) {
+                TextView tv = getView().findViewById(R.id.displayRecipesErrorNoRecipes);
+                tv.setVisibility(View.VISIBLE);
+            }
         }
     }
 

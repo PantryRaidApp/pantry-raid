@@ -6,18 +6,22 @@
     tools:context="group12.tcss450.uw.edu.appproject.Fragments.DisplayRecipesFragment">
 
     <TextView
+        android:id="@+id/displayRecipesErrorNoRecipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:textColor="@color/colorText"
+        android:textSize="18sp"
         android:text="@string/no_recipes_found"
         android:textAlignment="center"/>
 
     <ListView
         android:id="@+id/recipe_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:dividerHeight="14dp"
+        android:divider="@android:color/transparent">
     </ListView>
 
 </LinearLayout>

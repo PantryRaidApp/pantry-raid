@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements
         RegisterFragment.OnFragmentInteractionListener,
         VerifyEmailPasswordFragment.OnFragmentInteractionListener,
         ForgotPasswordFragment.OnFragmentInteractionListener {
+
     private AsyncTask<String, Integer, String> mTask;
     private DBManager database;
     String code;
