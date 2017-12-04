@@ -3,6 +3,7 @@ package group12.tcss450.uw.edu.appproject.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
+import android.webkit.WebViewClient;
 
 import group12.tcss450.uw.edu.appproject.R;
 
@@ -17,6 +18,7 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView = (android.webkit.WebView) findViewById(R.id.webView);
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
         mWebView.loadUrl(recipeUrl);
     }    /**
      * This is a helper method that will set the url to a new recipe.
