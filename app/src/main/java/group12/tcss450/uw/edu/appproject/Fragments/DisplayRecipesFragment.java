@@ -2,6 +2,7 @@ package group12.tcss450.uw.edu.appproject.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import group12.tcss450.uw.edu.appproject.API.ApiRecipe;
 import group12.tcss450.uw.edu.appproject.API.ApiRecipeResponse;
 import group12.tcss450.uw.edu.appproject.API.Response;
+import group12.tcss450.uw.edu.appproject.Activities.WebViewActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
@@ -126,7 +128,17 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: a recipe was selected");
+               String name = mRecipeList.get(i).getSourceUrl();
+                Log.d(TAG, "onItemClick: a recipe was selected \n" + name);
+                WebViewActivity webView = new WebViewActivity();
+                webView.setUrl(name);
+                Intent intent = new Intent(getActivity(), webView.getClass());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+
+
             }
         });
 
@@ -148,6 +160,7 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+
 
     }
 
