@@ -1,7 +1,6 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

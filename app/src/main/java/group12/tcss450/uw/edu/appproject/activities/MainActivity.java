@@ -1,6 +1,8 @@
-package group12.tcss450.uw.edu.appproject.Activities;
+package group12.tcss450.uw.edu.appproject.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +12,12 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
-import group12.tcss450.uw.edu.appproject.Database.Verifier;
-import group12.tcss450.uw.edu.appproject.Fragments.VerifyEmailPasswordFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.ForgotPasswordFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.MainPageFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.RegisterFragment;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
+import group12.tcss450.uw.edu.appproject.database.Verifier;
+import group12.tcss450.uw.edu.appproject.fragments.VerifyEmailPasswordFragment;
+import group12.tcss450.uw.edu.appproject.fragments.ForgotPasswordFragment;
+import group12.tcss450.uw.edu.appproject.fragments.MainPageFragment;
+import group12.tcss450.uw.edu.appproject.fragments.RegisterFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getIntent().getStringExtra("user") != null) {
+            Log.d("BootUpReceiver", "We got it! "+getIntent().getStringExtra("user"));
+            autoLogin(getIntent().getStringExtra("user"));
+        }
 
         database = new DBManager();
         try {
@@ -125,14 +132,42 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Called when a new user is registered.
-     * Sets the email and password for that user.
+     * Sets the user details, effectively setting the login state of the app.
+     * Saves the user in shared preferences.
      * @param theUser the user email.
      * @param thePassword the user password.
      */
-    public static void setUserandPassword(String theUser, String thePassword){
+    public void setUserandPassword(String theUser, String thePassword) {
         user = theUser;
         password = thePassword;
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(getString(R.string.username_pref), theUser);
+        editor.commit();
+    }
+
+    public void autoLogin(String theUser) {
+        user = theUser;
+        clearBackStack();
+        Intent intent = new Intent(this, TabbedPageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    /**
+     * Gets the user id of the current user logged in, -1 if there is an error or the user
+     * isn't logged in.
+     * @return The user id, -1 if error or the user isn't logged in.
+     */
+    public int getUserId() {
+        try {
+            return DBManager.getUserId(user);
+        } catch (Exception e) {
+            return -1;
+        }
     }
           
     public static String getUserName() {

@@ -3,7 +3,17 @@
     package="group12.tcss450.uw.edu.appproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <receiver
+        android:name=".broadcast.BootUpReceiver"
+        android:enabled="true"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+        </intent-filter>
+    </receiver>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_pr"
@@ -11,7 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_pr"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +29,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.TabbedPageActivity"
+            android:name=".activities.TabbedPageActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.DisplayRecipeResultsActivity"
+            android:name=".activities.DisplayRecipeResultsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.WebViewActivity"></activity>
+        <activity android:name=".activities.WebViewActivity"></activity>
+        <receiver
+            android:name=".broadcast.BootUpReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

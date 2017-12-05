@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Activities;
+package group12.tcss450.uw.edu.appproject.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -24,8 +24,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import group12.tcss450.uw.edu.appproject.Fragments.FavoritesFragment;
-import group12.tcss450.uw.edu.appproject.Fragments.IngredientSearchFragment;
+import group12.tcss450.uw.edu.appproject.fragments.FavoritesFragment;
+import group12.tcss450.uw.edu.appproject.fragments.IngredientSearchFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;

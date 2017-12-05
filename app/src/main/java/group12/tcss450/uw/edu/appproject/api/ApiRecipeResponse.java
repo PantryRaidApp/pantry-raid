@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.API;
+package group12.tcss450.uw.edu.appproject.api;
 
 /**
  * Wrapper class for Response.

@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Database;
+package group12.tcss450.uw.edu.appproject.database;
 
 import android.os.AsyncTask;
 import android.util.Log;

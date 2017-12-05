@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
-import group12.tcss450.uw.edu.appproject.Activities.MainActivity;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
+import group12.tcss450.uw.edu.appproject.activities.MainActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 

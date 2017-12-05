@@ -1,23 +1,13 @@
-package group12.tcss450.uw.edu.appproject.Database;
+package group12.tcss450.uw.edu.appproject.database;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
@@ -53,6 +43,11 @@ public class DBManager {
      * The script that gets ingredients that match a query.
      */
     private static final String INGRED_SEARCH = "getingredient";
+
+    /**
+     * The script that gets a user id.
+     */
+    private static final String GET_USER_ID = "getuserid";
 
     /**
      * Returns whether or not the given credentials are valid.
@@ -126,6 +121,22 @@ public class DBManager {
 
         String[] response = task.execute(query, INGRED_SEARCH).get().split("#");
         return response;
+    }
+
+    /**
+     * Returns the id for a user, -1 if not found or error.
+     * @param query The search term.
+     * @retur The user id, -1 if not found or error.
+     */
+    public static int getUserId(String query) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBGet();
+        query = query.toLowerCase().trim();
+
+        String response = task.execute(query, GET_USER_ID).get();
+        if (response.contains("error"))
+            return -1;
+        else
+            return Integer.parseInt(response);
     }
 
     /**

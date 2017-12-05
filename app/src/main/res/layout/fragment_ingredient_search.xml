@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="group12.tcss450.uw.edu.appproject.Activities.TabbedPageActivity">
+    tools:context="group12.tcss450.uw.edu.appproject.activities.TabbedPageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

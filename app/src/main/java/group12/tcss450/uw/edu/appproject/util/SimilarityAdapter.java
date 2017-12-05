@@ -1,7 +1,6 @@
-package group12.tcss450.uw.edu.appproject.Util;
+package group12.tcss450.uw.edu.appproject.util;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
