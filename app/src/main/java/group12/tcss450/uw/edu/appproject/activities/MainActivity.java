@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements
 
             if (theString.length() > 0) {
                 code = generateCode(theString);
-                user= theString;
+                user = theString;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, new VerifyEmailPasswordFragment())
                         .addToBackStack(null)
@@ -148,6 +148,22 @@ public class MainActivity extends AppCompatActivity implements
         editor.commit();
     }
 
+    /**
+     * Adds the favorite to the current user's list of favorites.
+     * @param url The url to add to the favorites.
+     * @return True if the add was successful, false otherwise.
+     */
+    public static boolean addFavorite(String url) {
+        if (user == null)
+            return false;
+        try {
+            Log.d("FAV", "ATTEMPTING TO add " + url + " to favorites of " + user + "!");
+            return DBManager.addFavorite(getUserId(), url);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void autoLogin(String theUser) {
         user = theUser;
         clearBackStack();
@@ -162,11 +178,24 @@ public class MainActivity extends AppCompatActivity implements
      * isn't logged in.
      * @return The user id, -1 if error or the user isn't logged in.
      */
-    public int getUserId() {
+    public static int getUserId() {
         try {
             return DBManager.getUserId(user);
         } catch (Exception e) {
             return -1;
+        }
+    }
+
+    /**
+     * Returns a string array containing all the urls of the favorites of the
+     * given user.
+     * @return A string array with favorite URLs.
+     */
+    public static String[] getAllFavorites() {
+        try {
+            return DBManager.getFavorites(getUserId());
+        } catch (Exception e) {
+            return new String[0];
         }
     }
           
