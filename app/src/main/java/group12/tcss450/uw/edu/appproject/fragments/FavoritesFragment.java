@@ -3,11 +3,27 @@ package group12.tcss450.uw.edu.appproject.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import group12.tcss450.uw.edu.appproject.R;
+import group12.tcss450.uw.edu.appproject.activities.MainActivity;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,16 +34,11 @@ import group12.tcss450.uw.edu.appproject.R;
  * create an instance of this fragment.
  */
 public class FavoritesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+    private ArrayAdapter<String> mArrayAdapter;
+    private String[] mFavoritesUrls;
+    private String[] mFavorites;
+    private ListView mListView;
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -36,58 +47,82 @@ public class FavoritesFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FavoritesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FavoritesFragment newInstance(String param1, String param2) {
-        FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static FavoritesFragment newInstance() {
+        return new FavoritesFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mFavoritesUrls = MainActivity.getAllFavorites();
+        //mFavorites = getRecipeFromUrl();
+        mArrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                R.layout.recipe_result, mFavoritesUrls);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
-    }
-
-    public void onButtonPressed(String theString) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(theString);
+        View v = inflater.inflate(R.layout.fragment_favorites, container, false);
+        if (mListView == null) {
+            mListView = (ListView)v.findViewById(R.id.favorites_list_view);
         }
+        mListView.setAdapter(mArrayAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "onItemClick: ");
+                //mListener.onFragmentInteraction(name);
+
+                /*
+                WebViewActivity webView = new WebViewActivity();
+                webView.setUrl(name);
+                Intent intent = new Intent(getActivity(), webView.getClass());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                */
+            }
+        });
+        return v;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    private String[] getRecipeFromUrl() {
+        String[] recipes = new String[mFavoritesUrls.length];
+        Log.d(TAG, "getRecipeFromUrl:");
+
+        for (int i = 0; i < mFavoritesUrls.length; i++) {
+            try {
+                recipes[i] = getTitleFromUrl(mFavoritesUrls[i]);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
         }
+      return recipes;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private String getTitleFromUrl(String theUrl) throws Exception{
+        URL url = new URL(theUrl);
+        URLConnection urlConnection = url.openConnection();
+        DataInputStream dis = new DataInputStream(urlConnection.getInputStream());
+        String html = "", tmp = "";
+        while ((tmp = dis.readUTF()) != null) {
+            html += " " + tmp;
+        }
+        dis.close();
+
+        html = html.replaceAll("\\s+", " ");
+        Pattern p = Pattern.compile("<title>(.*?)</title>");
+        Matcher m = p.matcher(html);
+        while (m.find()) {
+            Log.d("HALP", "getTitleFromUrl:" + m.group(1));
+        }
+        return "hi";
     }
 
     /**
