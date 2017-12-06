@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(getString(R.string.username_pref), theUser);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -162,6 +162,23 @@ public class MainActivity extends AppCompatActivity implements
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Checks if a recipe url has already been favorited.
+     * @param url The url to check.
+     * @return True if the url is already a favorite, false otherwise.
+     */
+    public static boolean isAFavorite(String url) {
+        String[] favorites = getAllFavorites();
+        int index = Arrays.binarySearch(favorites, url);
+
+        for (String s: favorites) {
+            if (s.equals(url)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void autoLogin(String theUser) {

@@ -128,17 +128,18 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               String name = mRecipeList.get(i).getSourceUrl();
+                String name = mRecipeList.get(i).getSourceUrl();
                 Log.d(TAG, "onItemClick: a recipe was selected \n" + name);
+                mListener.onFragmentInteraction(name);
+
+                /*
                 WebViewActivity webView = new WebViewActivity();
                 webView.setUrl(name);
                 Intent intent = new Intent(getActivity(), webView.getClass());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
-
-
+                */
             }
         });
 

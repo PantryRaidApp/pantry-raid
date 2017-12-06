@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="group12.tcss450.uw.edu.appproject.activities.WebView">
+    tools:context="group12.tcss450.uw.edu.appproject.activities.WebViewActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addFavorite"
@@ -12,24 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="32dp"
-        android:src="@drawable/is_favorite"
+        android:src="@drawable/not_favorite"
+        android:background="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimaryDark"
         android:visibility="visible"
         app:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="32dp" />
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>
