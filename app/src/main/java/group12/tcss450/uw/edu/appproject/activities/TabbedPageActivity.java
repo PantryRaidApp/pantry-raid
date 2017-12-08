@@ -84,7 +84,11 @@ public class TabbedPageActivity extends AppCompatActivity implements
 
     @Override
     public void onFragmentInteraction(String theString) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("url", theString);
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
