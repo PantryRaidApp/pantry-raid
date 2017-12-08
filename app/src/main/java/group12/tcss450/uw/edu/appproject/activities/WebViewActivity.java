@@ -79,7 +79,10 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
 
         if (MainActivity.isAFavorite(recipeUrl)) {
             Log.d("isAfavorite", recipeUrl);
-            Toast.makeText(getApplicationContext(), "Already a favorite", Toast.LENGTH_SHORT).show();
+            if (!MainActivity.deleteFavorite(recipeUrl))
+                Toast.makeText(getApplicationContext(), "Unable to remove from favorites.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(), "Removed from favorites!", Toast.LENGTH_SHORT).show();
         } else {
             if (MainActivity.addFavorite(recipeUrl)) {
                 Toast.makeText(getApplicationContext(), "Added to favorites!", Toast.LENGTH_SHORT).show();

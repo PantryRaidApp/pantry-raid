@@ -55,9 +55,13 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (getIntent().getStringExtra("user") != null) {
-            Log.d("BootUpReceiver", "We got it! "+getIntent().getStringExtra("user"));
-            autoLogin(getIntent().getStringExtra("user"));
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.SHARED_PREFS),
+                        Context.MODE_PRIVATE);
+        String user = sharedPreferences.getString(getString(R.string.username_pref), null);
+        if (user != null) {
+            Log.d("LOGIN", "auto login " + user);
+            autoLogin(user);
         }
 
         database = new DBManager();
@@ -159,6 +163,22 @@ public class MainActivity extends AppCompatActivity implements
         try {
             Log.d("FAV", "ATTEMPTING TO add " + url + " to favorites of " + user + "!");
             return DBManager.addFavorite(getUserId(), url);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Removes the favorite to the current user's list of favorites.
+     * @param url The url to delete to the favorites.
+     * @return True if the delete was successful, false otherwise.
+     */
+    public static boolean deleteFavorite(String url) {
+        if (user == null)
+            return false;
+        try {
+            Log.d("FAV", "ATTEMPTING TO delete " + url + " to favorites of " + user + "!");
+            return DBManager.deleteFavorite(getUserId(), url);
         } catch (Exception e) {
             return false;
         }
