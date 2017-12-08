@@ -33,7 +33,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link FavoritesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FavoritesFragment extends Fragment {
+public class FavoritesFragment extends Fragment implements View.OnClickListener{
     private OnFragmentInteractionListener mListener;
     private ArrayAdapter<String> mArrayAdapter;
     private String[] mFavoritesUrls;
@@ -75,8 +75,9 @@ public class FavoritesFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemClick: ");
-                //mListener.onFragmentInteraction(name);
+                String name = mArrayAdapter.getItem(i);
+                Log.d(TAG, "onItemClick: " + name);
+                mListener.onFragmentInteraction(name);
 
                 /*
                 WebViewActivity webView = new WebViewActivity();
@@ -123,6 +124,11 @@ public class FavoritesFragment extends Fragment {
             Log.d("HALP", "getTitleFromUrl:" + m.group(1));
         }
         return "hi";
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     /**
