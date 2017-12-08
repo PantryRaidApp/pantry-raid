@@ -1,8 +1,7 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,9 +17,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
-import group12.tcss450.uw.edu.appproject.Util.SimilarityAdapter;
+import group12.tcss450.uw.edu.appproject.util.SimilarityAdapter;
 
 import static android.content.ContentValues.TAG;
 

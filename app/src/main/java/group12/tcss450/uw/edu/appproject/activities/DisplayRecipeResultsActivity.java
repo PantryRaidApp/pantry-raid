@@ -1,11 +1,12 @@
-package group12.tcss450.uw.edu.appproject.Activities;
+package group12.tcss450.uw.edu.appproject.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import group12.tcss450.uw.edu.appproject.Fragments.DisplayRecipesFragment;
+import group12.tcss450.uw.edu.appproject.fragments.DisplayRecipesFragment;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
@@ -40,6 +41,8 @@ public class DisplayRecipeResultsActivity extends AppCompatActivity implements
     public void onFragmentInteraction(String theString) {
         Bundle bundle = new Bundle();
         bundle.putString("url", theString);
-
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

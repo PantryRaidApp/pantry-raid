@@ -2,6 +2,8 @@
     <string name="app_name">Pantry Raid</string>
 
     <string name="hello_blank_fragment">hello</string>
+    <string name="SHARED_PREFS">pantry-raid.SHAREDPREFS</string>
+    <string name="username_pref">username</string>
 
 
     <string name="verify_email_message">Enter the code from your email.</string>

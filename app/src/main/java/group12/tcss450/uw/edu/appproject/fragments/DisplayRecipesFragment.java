@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 
 import android.content.Context;
@@ -26,10 +26,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import group12.tcss450.uw.edu.appproject.API.ApiRecipe;
-import group12.tcss450.uw.edu.appproject.API.ApiRecipeResponse;
-import group12.tcss450.uw.edu.appproject.API.Response;
-import group12.tcss450.uw.edu.appproject.Activities.WebViewActivity;
+import group12.tcss450.uw.edu.appproject.api.ApiRecipe;
+import group12.tcss450.uw.edu.appproject.api.ApiRecipeResponse;
+import group12.tcss450.uw.edu.appproject.api.Response;
+import group12.tcss450.uw.edu.appproject.activities.WebViewActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
@@ -128,17 +128,18 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               String name = mRecipeList.get(i).getSourceUrl();
+                String name = mRecipeList.get(i).getSourceUrl();
                 Log.d(TAG, "onItemClick: a recipe was selected \n" + name);
+                mListener.onFragmentInteraction(name);
+
+                /*
                 WebViewActivity webView = new WebViewActivity();
                 webView.setUrl(name);
                 Intent intent = new Intent(getActivity(), webView.getClass());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
-
-
+                */
             }
         });
 

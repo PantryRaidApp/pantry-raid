@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
-import group12.tcss450.uw.edu.appproject.Activities.MainActivity;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
+import group12.tcss450.uw.edu.appproject.activities.MainActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
@@ -87,7 +87,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                     errorMessage.setText(R.string.password_match_error);
                     errorMessage.setVisibility(TextView.VISIBLE);
                 } else if (password.getText().toString().equals(passwordreenter.getText().toString())) {
-                   MainActivity.setUserandPassword((email.getText().toString()).trim().toLowerCase(),
+                    ((MainActivity)getActivity()).setUserandPassword((email.getText().toString()).trim().toLowerCase(),
                            password.getText().toString());
 
                         mListener.onFragmentInteraction(email.getText().toString());

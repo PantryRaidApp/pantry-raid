@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 import android.content.Context;
 import android.os.Bundle;

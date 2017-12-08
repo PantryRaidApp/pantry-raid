@@ -1,23 +1,13 @@
-package group12.tcss450.uw.edu.appproject.Database;
+package group12.tcss450.uw.edu.appproject.database;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
@@ -55,6 +45,26 @@ public class DBManager {
     private static final String INGRED_SEARCH = "getingredient";
 
     /**
+     * The script that gets a user id.
+     */
+    private static final String GET_USER_ID = "getuserid";
+
+    /**
+     * The script that adds a favorite.
+     */
+    private static final String ADD_FAVORITE = "addfavorite";
+
+    /**
+     * The script that returns whether or not a favorite exists.
+     */
+    private static final String CHECK_FAVORITE = "checkfavorite";
+
+    /**
+     * The script that returns whether or not a favorite exists.
+     */
+    private static final String GET_ALL_FAVORITE = "getallfavorite";
+
+    /**
      * Returns whether or not the given credentials are valid.
      * Can be called with 1 or 2 arguments, which are username and password
      * respectively. Used to check if a username exists, or if a username/password
@@ -80,6 +90,56 @@ public class DBManager {
     }
 
     /**
+     * Adds the recipe url to the user's favorites.
+     * @param userId The id of the user.
+     * @param url The url of the recipe.
+     * @return True if the favorite was successfully added.
+     */
+    public static boolean addFavorite(int userId, String url) throws ExecutionException, InterruptedException {
+
+        AsyncTask<String, Void, String> task = new DBGet();
+
+        if (favoriteExists(userId, url))
+            return false;
+
+        String response = task.execute(Integer.toString(userId), url, ADD_FAVORITE).get();
+        Log.d(TAG, "addFavorite: " + response);
+        if (response.contains("error"))
+            return false;
+        else
+         return true;
+    }
+
+    /**
+     * Checks if the favorite exists.
+     * @param userId The id of the user.
+     * @param url The url of the recipe.
+     * @return True if the favorite already exists for this user.
+     */
+    public static boolean favoriteExists(int userId, String url) throws ExecutionException, InterruptedException {
+
+        AsyncTask<String, Void, String> task = new DBGet();
+
+        String response = task.execute(Integer.toString(userId), url, CHECK_FAVORITE).get();
+        if (response.contains("error"))
+            return false;
+        else
+            return response.equals("Fail");
+    }
+
+    /**
+     * Returns an array of favorite URLs that match the given query.
+     * @param userId The user to get the favorites from.
+     * @return A list of the favorite URLs.
+     */
+    public static String[] getFavorites(int userId) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBGet();
+
+        String[] response = task.execute(Integer.toString(userId), GET_ALL_FAVORITE).get().split("#");
+        return response;
+    }
+
+    /**
      * Adds the user to the database. This does NOT check if the user already exists!
      * @param user The email of the user.
      * @param pass The password of the user.
@@ -88,7 +148,7 @@ public class DBManager {
     public boolean addNewUser(String user, String pass) throws ExecutionException, InterruptedException {
         AsyncTask<String, Void, String> task = new DBQuery();
         String response = task.execute(user, pass, ADD).get();
-        Log.d(TAG, "addNewUser: success");
+        Log.d(TAG, "addNewUser: " + response);
         return response.equals("success");
     }
     /**
@@ -126,6 +186,22 @@ public class DBManager {
 
         String[] response = task.execute(query, INGRED_SEARCH).get().split("#");
         return response;
+    }
+
+    /**
+     * Returns the id for a user, -1 if not found or error.
+     * @param query The search term.
+     * @retur The user id, -1 if not found or error.
+     */
+    public static int getUserId(String query) throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, String> task = new DBGet();
+        query = query.toLowerCase().trim();
+
+        String response = task.execute(query, GET_USER_ID).get();
+        if (response.contains("error"))
+            return -1;
+        else
+            return Integer.parseInt(response);
     }
 
     /**

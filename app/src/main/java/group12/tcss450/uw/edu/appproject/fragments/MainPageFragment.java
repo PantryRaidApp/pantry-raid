@@ -1,4 +1,4 @@
-package group12.tcss450.uw.edu.appproject.Fragments;
+package group12.tcss450.uw.edu.appproject.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import group12.tcss450.uw.edu.appproject.Database.DBManager;
+import group12.tcss450.uw.edu.appproject.activities.MainActivity;
+import group12.tcss450.uw.edu.appproject.database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
@@ -89,6 +90,8 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
                     }
                     if (userExistsInDatabase) {
                         mListener.onFragmentInteraction(getString(R.string.skip_button));
+                        ((MainActivity) getActivity()).setUserandPassword((email.getText().toString())
+                                .trim().toLowerCase(), password.getText().toString());
                     } else {
                         errorText.setText(R.string.invalid_username_password);
                         errorText.setVisibility(TextView.VISIBLE);

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="group12.tcss450.uw.edu.appproject.Fragments.DisplayRecipesFragment">
+    tools:context="group12.tcss450.uw.edu.appproject.fragments.DisplayRecipesFragment">
 
     <TextView
         android:id="@+id/displayRecipesErrorNoRecipes"
