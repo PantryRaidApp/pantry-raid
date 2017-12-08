@@ -55,6 +55,11 @@ public class DBManager {
     private static final String ADD_FAVORITE = "addfavorite";
 
     /**
+     * The script that deletes a favorite.
+     */
+    private static final String DELETE_FAVORITE = "deletefavorite";
+
+    /**
      * The script that returns whether or not a favorite exists.
      */
     private static final String CHECK_FAVORITE = "checkfavorite";
@@ -125,6 +130,20 @@ public class DBManager {
             return false;
         else
             return response.equals("Fail");
+    }
+
+    /**
+     * Deletes the favorite for the user.
+     * @param userId The id of the user.
+     * @param url The url of the recipe.
+     * @return True if the favorite was deleted.
+     */
+    public static boolean deleteFavorite(int userId, String url) throws ExecutionException, InterruptedException {
+
+        AsyncTask<String, Void, String> task = new DBQuery();
+
+        String response = task.execute(Integer.toString(userId), url, DELETE_FAVORITE).get();
+        return response.equals("success");
     }
 
     /**
@@ -209,7 +228,7 @@ public class DBManager {
      * Requires 2+ arguments - 1 for the php file to use, and then 1+ parameters.
      * Argument order is args1... argsN, php file.
      */
-    private class DBQuery extends AsyncTask<String, Void, String> {
+    private static class DBQuery extends AsyncTask<String, Void, String> {
 
         /**
          * Executes the query on the db.
