@@ -82,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements
         }
         
     }
+
+    /**
+     * Takes in a string from FragmentInteractionListeners and changes the fragment based on the
+     * button pushed
+     * @param theString a string indicating what button has been pressed
+     */
     @Override
     public void onFragmentInteraction(String theString) {
         if (theString.equals(getString(R.string.register_button))){
@@ -201,6 +207,10 @@ public class MainActivity extends AppCompatActivity implements
         return false;
     }
 
+    /**
+     * Method to skip login if user is already logged in.
+     * @param theUser string which is the username of varified user who is logged in
+     */
     public void autoLogin(String theUser) {
         user = theUser;
         clearBackStack();
@@ -235,11 +245,18 @@ public class MainActivity extends AppCompatActivity implements
             return new String[0];
         }
     }
-          
+
+    /**
+     * Returns username of user currently logged in
+     * @return user a string that contains the username of current user
+     */
     public static String getUserName() {
         return user;
     }
 
+    /**
+     * Cancels currently running task (if any) or calls super if back button pressed
+     */
     @Override
     public void onBackPressed() {
         if(mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING) {
