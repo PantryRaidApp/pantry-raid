@@ -81,7 +81,6 @@ public class FavoritesFragment extends Fragment{
             mListView = (ListView)v.findViewById(R.id.favorites_list_view);
         }
         mListView.setAdapter(mArrayAdapter);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

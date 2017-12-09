@@ -17,6 +17,10 @@ import static group12.tcss450.uw.edu.appproject.activities.MainActivity.getAllFa
 
 import group12.tcss450.uw.edu.appproject.R;
 
+/**
+ * Activity to Display Recipes that have been selected by the user with the option to add them to a
+ * list of favorites.
+ */
 public class WebViewActivity extends AppCompatActivity implements View.OnClickListener{
     private android.webkit.WebView mWebView;
     private static String recipeUrl;
@@ -24,6 +28,10 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
 
     private static final String ARG_PARAM = "url";
 
+    /**
+     * Creates instance of WebView for viewing recipes
+     * @param savedInstanceState bundle that contains previous state (if any)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +72,20 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Calls super for onBackPressed and closes the webView.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
 
+    /**
+     * This method handles the clicking of the FAB. Will remove or add url to favorites list
+     * depending on if is currently on the list.
+     * @param view the current view of the webViewer
+     */
     @Override
     public void onClick(View view) {
         String[] favs = getAllFavorites();

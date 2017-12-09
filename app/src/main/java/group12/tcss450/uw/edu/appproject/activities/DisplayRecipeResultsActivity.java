@@ -11,9 +11,17 @@ import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Activity that displays recipes that have been searched for by the user.
+ */
 public class DisplayRecipeResultsActivity extends AppCompatActivity implements
         DisplayRecipesFragment.OnFragmentInteractionListener {
 
+    /**
+     * Method that creates new DisplayRecipeResultsActivity. Takes in a bundle of saved
+     * instance state in order to previous search results (if any).
+     *@param savedInstanceState bundle of saved instance used to create Activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +45,11 @@ public class DisplayRecipeResultsActivity extends AppCompatActivity implements
 
     }
 
+    /**
+     * Listens for interaction from recipes displayed and sends url information to create a
+     * WebViewActivity to display the clicked recipe.
+     * @param theString
+     */
     @Override
     public void onFragmentInteraction(String theString) {
         Bundle bundle = new Bundle();
