@@ -22,14 +22,17 @@ import group12.tcss450.uw.edu.appproject.database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * An adapter class to measure String similarity based on the Levenshtein distance.
+ * An adapter class to measure String similarity based on the Levenshtein distance, as well as
+ * a few custom algorithm changes.
  */
-
 public class SimilarityAdapter extends BaseAdapter implements Filterable {
     private static String[] ORIGINAL;
     private List<String> ingredients;
     private Context context;
 
+    /**
+     * Initializes the list of autocorrect ingredients.
+     */
     static {
         try {
             ORIGINAL = DBManager.getIngredients();
@@ -39,26 +42,51 @@ public class SimilarityAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Constructs the SimilarityAdapter.
+     * @param context The context.
+     */
     public SimilarityAdapter(Context context) {
         this.context = context;
         ingredients = new ArrayList<String>();
     }
 
+    /**
+     * The amount of items in the list.
+     * @return
+     */
     @Override
     public int getCount() {
         return ingredients.size();
     }
 
+    /**
+     * Returns the item at a given index.
+     * @param i The index.
+     * @return The item at that index.
+     */
     @Override
     public String getItem(int i) {
         return ingredients.get(i);
     }
 
+    /**
+     * Returns the item id at a given index.
+     * @param i The index.
+     * @return The item id at that index.
+     */
     @Override
     public long getItemId(int i) {
         return i;
     }
 
+    /**
+     * Returns the view.
+     * @param index The index of the item.
+     * @param view The main view.
+     * @param viewGroup The ViewGroup reference.
+     * @return The view.
+     */
     @Override
     public View getView(int index, View view, ViewGroup viewGroup) {
         if (view == null) {
@@ -78,14 +106,28 @@ public class SimilarityAdapter extends BaseAdapter implements Filterable {
         return view;
     }
 
+    /**
+     * Returns the custom Filter.
+     * @return The custom filter.
+     */
     @Override
     public Filter getFilter() {
         return new Filter() {
+            /**
+             * Converts the result to a String.
+             * @param result The result to convert.
+             * @return The String representation of the result.
+             */
             @Override
             public String convertResultToString(Object result) {
                 return ((String) result);
             }
 
+            /**
+             * The main filter method.
+             * @param charSequence The character sequence to filter.
+             * @return The FilterResults after filtering with the custom algorithm.
+             */
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String query = charSequence.toString().toLowerCase().trim();
@@ -126,6 +168,11 @@ public class SimilarityAdapter extends BaseAdapter implements Filterable {
                 return results;
             }
 
+            /**
+             * Publishes the results.
+             * @param charSequence The character sequence.
+             * @param filterResults The FilterResults reference.
+             */
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 ingredients.clear();
