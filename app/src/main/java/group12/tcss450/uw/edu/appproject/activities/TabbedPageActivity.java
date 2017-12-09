@@ -30,6 +30,9 @@ import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Activity that gives a tabbed page , one for ingredient search and one for user favorites.
+ */
 public class TabbedPageActivity extends AppCompatActivity implements
         IngredientSearchFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener {
@@ -52,6 +55,10 @@ public class TabbedPageActivity extends AppCompatActivity implements
     private IngredientSearchFragment ingredientSearchFragment;
     private FavoritesFragment favoritesFragment;
 
+    /**
+     * Creates instance of Activity
+     * @param savedInstanceState saved state of activity (if any)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +81,11 @@ public class TabbedPageActivity extends AppCompatActivity implements
         favoritesFragment = new FavoritesFragment();
     }
 
-
+    /**
+     * Creates menu when activity is created
+     * @param menu a menu of items
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,6 +93,11 @@ public class TabbedPageActivity extends AppCompatActivity implements
         return true;
     }
 
+    /**
+     * When String is passed from FragmentInterationListener, creates instance of a WebViewActivity
+     * to view Favorited recipe that had be clicked.
+     * @param theString a string that represents the url of a favorited recipe
+     */
     @Override
     public void onFragmentInteraction(String theString) {
         Bundle bundle = new Bundle();
@@ -91,6 +107,12 @@ public class TabbedPageActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
+    /**
+     * Takes in a list of ingredients that will be passed into DisplayRecipeResults
+     * activity to be searched.
+     * @param theIngredientList ArrayList containing strings representing ingredients that had been
+     * searched for
+     */
     @Override
     public void onFragmentInteraction(ArrayList<String> theIngredientList) {
         //List only send back from IngredientSearchFragment
@@ -102,22 +124,21 @@ public class TabbedPageActivity extends AppCompatActivity implements
         intent.putExtras(bundle);
         startActivity(intent);
 
-        /*
-        DisplayRecipesFragment displayRecipesFragment = new DisplayRecipesFragment();
-        displayRecipesFragment.setArguments(bundle);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, displayRecipesFragment)
-                .addToBackStack(null)
-                .commit();
-        */
     }
 
+    /**
+     * Calls Super for onBackPressed.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
+    /**
+     * Handles actionbar items.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -158,6 +179,13 @@ public class TabbedPageActivity extends AppCompatActivity implements
             return fragment;
         }
 
+        /**
+         * Creates View for Activity
+         * @param inflater a Layout inflater
+         * @param container a ViewGroup
+         * @param savedInstanceState a bundle
+         * @return rootView a view
+         */
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -171,22 +199,22 @@ public class TabbedPageActivity extends AppCompatActivity implements
                 @Override
                 public int getCount() {
                     return items.size();
-                }
+                } //count of number of items
 
                 @Override
                 public Object getItem(int i) {
                     return null;
-                }
+                }//item
 
                 @Override
                 public long getItemId(int i) {
                     return 0;
-                }
+                }//item id
 
                 @Override
                 public View getView(int i, View view, ViewGroup viewGroup) {
                     return null;
-                }
+                }//view
             });
             return rootView;
         }
@@ -214,12 +242,21 @@ public class TabbedPageActivity extends AppCompatActivity implements
             return null;
         }
 
+        /**
+         * To get number of tabs to display
+         * @return number of tabs
+         */
         @Override
         public int getCount() {
             // Show 3 total pages.
             return NUMBER_OF_TABS;
         }
 
+        /**
+         * Gets the name of the tabs.
+         * @param position int position of tab
+         * @return name on tab or null depending on what is selected
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
