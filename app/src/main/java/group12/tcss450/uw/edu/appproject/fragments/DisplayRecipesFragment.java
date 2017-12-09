@@ -1,8 +1,6 @@
 package group12.tcss450.uw.edu.appproject.fragments;
 
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 import group12.tcss450.uw.edu.appproject.api.ApiRecipe;
 import group12.tcss450.uw.edu.appproject.api.ApiRecipeResponse;
 import group12.tcss450.uw.edu.appproject.api.Response;
-import group12.tcss450.uw.edu.appproject.activities.WebViewActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 import static android.content.ContentValues.TAG;
@@ -37,41 +34,41 @@ import static android.content.ContentValues.TAG;
 /**
  * Fragment that displays the top 30 recipes that return from the entered ingredients.
  */
-public class DisplayRecipesFragment extends Fragment implements View.OnClickListener{
+public class DisplayRecipesFragment extends Fragment{
+    /** Listener to send back recipe data. */
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * The list of recipes returned from the API.
-     */
+    /** The list of recipes returned from the API. */
     private ArrayList<ApiRecipe> mRecipeList;
 
-    /**
-     * The adapter used for the recipes.
-     */
+    /** The adapter used for the recipes. */
     private ArrayAdapter<ApiRecipe> mRecipeAdapter;
 
-    /**
-     * The ListView where the list of recipes is displayed.
-     */
+    /** The ListView where the list of recipes is displayed. */
     private ListView mListView;
 
-    //Strings used to store data for calling the API
+    /** API key used to connect to the API. */
     private String myApiKey;
+
+    /** The string used to call the api for specific data. */
     private String myApiCall;
 
-    //GSON objects for parsing JSON returned by API call
+    /** The Gson builder used to create a Gson object. */
     private GsonBuilder myBuilder;
+
+    /** Gson object used to parse Json from the API response. */
     private Gson myGson;
 
-    //String used to identify list parameter
+    /** String used to identify list parameter. */
     private static final String ARG_PARAM = "ingredientList";
-    //List of ingredients used to query API
+
+    /** List of ingredients used to query API. */
     private ArrayList<String> mIngredientList;
 
-
-    public DisplayRecipesFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor.
+     */
+    public DisplayRecipesFragment() { }
 
     /**
      * Use this factory method to create a new instance of
@@ -89,6 +86,12 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         return fragment;
     }
 
+    /**
+     * onCreate method sets up all data for onCreateView.
+     * The list of ingredients in saved here from the bundle.
+     * All setup methods are called from here.
+     * @param savedInstanceState the bundle.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +117,13 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
 
     }
 
+    /**
+     * Sets up the view for the page display.
+     * @param inflater the LayoutInflater
+     * @param container the ViewGroup
+     * @param savedInstanceState the Bundle
+     * @return the View created in the method.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,21 +141,15 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
                 String name = mRecipeList.get(i).getSourceUrl();
                 Log.d(TAG, "onItemClick: a recipe was selected \n" + name);
                 mListener.onFragmentInteraction(name);
-
-                /*
-                WebViewActivity webView = new WebViewActivity();
-                webView.setUrl(name);
-                Intent intent = new Intent(getActivity(), webView.getClass());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                */
             }
         });
 
         return v;
     }
 
+    /**
+     * Forms an API call based on the ingredients passed in from the bundle.
+     */
     private void createApiCallFromIngredients() {
         //For every ingredient:
         //replace spaces with '%20' and add to APIcall
@@ -159,12 +163,10 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         }
     }
 
-    @Override
-    public void onClick(View view) {
-
-
-    }
-
+    /**
+     * Instantiates the OnFragmentInteractionListener for ListView behavior.
+     * @param context the Context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -176,6 +178,10 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
         }
     }
 
+    /**
+     * Handles cleanup when the fragment is detached.
+     * Sets the onFragmentInteractionListener to null.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -183,20 +189,16 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
     }
 
     /**
+     * Passes back a URL of the selected recipe.
+     *
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
-
-    //http://food2fork.com/api/search?key=e60347278aefc1439128a6281dab7812&q=shredded%20chicken,onion,green%20pepper
 
     /**
      * Handles the webservice methods for a GET call to the api.
@@ -229,6 +231,10 @@ public class DisplayRecipesFragment extends Fragment implements View.OnClickList
             return response;
         }
 
+        /**
+         * Handles displaying the results of the API after the async task finished executing.
+         * @param result the result of the async task.
+         */
         @Override
         protected void onPostExecute(String result) {
             // Something wrong with the network or the URL.

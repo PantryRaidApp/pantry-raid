@@ -12,11 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,23 +23,26 @@ import group12.tcss450.uw.edu.appproject.activities.MainActivity;
 import static android.content.ContentValues.TAG;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavoritesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavoritesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * The fragment that displays the saved user favorites.
+ * Used in TabbedPageActivity.
  */
-public class FavoritesFragment extends Fragment implements View.OnClickListener{
+public class FavoritesFragment extends Fragment{
+    /** The listener used to send back url data. */
     private OnFragmentInteractionListener mListener;
+
+    /** The adapter used to display the recipe urls in the ListView. */
     private ArrayAdapter<String> mArrayAdapter;
+
+    /** The list of favorites displayed. */
     private String[] mFavoritesUrls;
-    private String[] mFavorites;
+
+    /** List view where the favorites are displayed. */
     private ListView mListView;
 
-    public FavoritesFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public FavoritesFragment() { }
 
     /**
      * Use this factory method to create a new instance of
@@ -53,15 +53,25 @@ public class FavoritesFragment extends Fragment implements View.OnClickListener{
         return new FavoritesFragment();
     }
 
+    /**
+     * Sets up data and adapter for the fragment
+     * @param savedInstanceState the bundle.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFavoritesUrls = MainActivity.getAllFavorites();
-        //mFavorites = getRecipeFromUrl();
         mArrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 R.layout.recipe_result, mFavoritesUrls);
     }
 
+    /**
+     * Sets up the view and its components for the fragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return the View created from the method.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,54 +88,15 @@ public class FavoritesFragment extends Fragment implements View.OnClickListener{
                 String name = mArrayAdapter.getItem(i);
                 Log.d(TAG, "onItemClick: " + name);
                 mListener.onFragmentInteraction(name);
-
-                /*
-                WebViewActivity webView = new WebViewActivity();
-                webView.setUrl(name);
-                Intent intent = new Intent(getActivity(), webView.getClass());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                */
             }
         });
         return v;
     }
 
-    private String[] getRecipeFromUrl() {
-        String[] recipes = new String[mFavoritesUrls.length];
-        Log.d(TAG, "getRecipeFromUrl:");
-
-        for (int i = 0; i < mFavoritesUrls.length; i++) {
-            try {
-                recipes[i] = getTitleFromUrl(mFavoritesUrls[i]);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-        }
-      return recipes;
-    }
-
-    private String getTitleFromUrl(String theUrl) throws Exception{
-        URL url = new URL(theUrl);
-        URLConnection urlConnection = url.openConnection();
-        DataInputStream dis = new DataInputStream(urlConnection.getInputStream());
-        String html = "", tmp = "";
-        while ((tmp = dis.readUTF()) != null) {
-            html += " " + tmp;
-        }
-        dis.close();
-
-        html = html.replaceAll("\\s+", " ");
-        Pattern p = Pattern.compile("<title>(.*?)</title>");
-        Matcher m = p.matcher(html);
-        while (m.find()) {
-            Log.d("HALP", "getTitleFromUrl:" + m.group(1));
-        }
-        return "hi";
-    }
-
+    /**
+     * Method to instantiate the OnFragmentInteractionListener when the fragment is attached.
+     * @param context Context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -137,26 +108,22 @@ public class FavoritesFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Cleanup for when the fragment is detached.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     /**
+     * Sends back the url of the selected favorites to open a WebView.
+     *
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);

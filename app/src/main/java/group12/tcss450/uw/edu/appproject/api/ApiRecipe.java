@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Recipe class used to hold all recipe data.
  * This class should only be filled using JSON from a Web API call.
- *
- * @author Zira Cook
  */
 public class ApiRecipe {
     @SerializedName("publisher")
@@ -97,6 +95,10 @@ public class ApiRecipe {
         return publisherUrl;
     }
 
+    /**
+     * The toString used for printing in DisplayRecipeFragments.
+     * @return a string representing an API recipe.
+     */
     @Override
     public String toString() {
         String paddingForSecondLine = "        ";

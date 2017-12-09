@@ -12,21 +12,27 @@ import android.widget.EditText;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
  * Helper class to verify user input of email and password.
  */
 public class VerifyEmailPasswordFragment extends Fragment implements View.OnClickListener {
-
+    /** Enter box for verification code */
     private EditText verify;
+
+    /** Listener to send back user data. */
     private OnFragmentInteractionListener mListener;
 
     /**
      * Required constructor.
      */
-    public VerifyEmailPasswordFragment() {
-        // Required empty public constructor
-    }
+    public VerifyEmailPasswordFragment() { }
 
+    /**
+     * Sets up fragment for displaying the fragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return the created view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,6 +44,10 @@ public class VerifyEmailPasswordFragment extends Fragment implements View.OnClic
         return v;
     }
 
+    /**
+     * Instantiation of variables when fragment is attached.
+     * @param context Context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -49,12 +59,19 @@ public class VerifyEmailPasswordFragment extends Fragment implements View.OnClic
         }
     }
 
+    /**
+     * Cleanup when fragment is detached.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Adds functionality to buttons.
+     * @param view the view of the fragment.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null){
@@ -63,7 +80,10 @@ public class VerifyEmailPasswordFragment extends Fragment implements View.OnClic
 
     }
 
+    /**
+     * Returns a string back to MainPageActivity.
+     */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String theString);
+        void onFragmentInteraction(String theString);
     }
 }
