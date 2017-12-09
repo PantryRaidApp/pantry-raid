@@ -1,6 +1,8 @@
 package group12.tcss450.uw.edu.appproject.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListViewCompat;
@@ -27,6 +29,7 @@ import java.util.List;
 import group12.tcss450.uw.edu.appproject.fragments.FavoritesFragment;
 import group12.tcss450.uw.edu.appproject.fragments.IngredientSearchFragment;
 import group12.tcss450.uw.edu.appproject.R;
+import group12.tcss450.uw.edu.appproject.fragments.MainPageFragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -136,8 +139,8 @@ public class TabbedPageActivity extends AppCompatActivity implements
 
     /**
      * Handles actionbar items.
-     * @param item
-     * @return
+     * @param item represents item on menu
+     * @return true or call to super
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -148,11 +151,22 @@ public class TabbedPageActivity extends AppCompatActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            SharedPreferences sharedPreferences =
+                    getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString(getString(R.string.username_pref), null);
+            editor.apply();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
