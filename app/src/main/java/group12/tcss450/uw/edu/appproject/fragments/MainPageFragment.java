@@ -16,25 +16,37 @@ import group12.tcss450.uw.edu.appproject.database.DBManager;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
  * The main fragment that allows the user to pick between basic starting options:
  * Login, register, display recipes from the API.
  */
 public class MainPageFragment extends Fragment implements View.OnClickListener{
+    /** Listener to send back user data. */
     private OnFragmentInteractionListener mListener;
+
+    /** Components for entering email and password. */
     private EditText email, password;
+
+    /** Database object used to check for saved user data. */
     private DBManager database;
+
+    /** A check for whether or not a user already exists. */
     private boolean userExistsInDatabase;
+
+    /** A display area for error text. */
     private TextView errorText;
 
     /**
      * Required constructor.
      */
-    public MainPageFragment() {
-        // Required empty public constructor
-    }
+    public MainPageFragment() { }
 
-
+    /**
+     * Sets up fragment for displaying the fragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return the created view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +68,10 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
         return v;
     }
 
+    /**
+     * Instantiation of variables when fragment is attached.
+     * @param context Context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,12 +83,19 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Cleanup when fragment is detached.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Adds functionality to buttons.
+     * @param view the view of the fragment.
+     */
     @Override
     public void onClick(View view) {
         if (mListener != null) {
@@ -125,6 +148,9 @@ public class MainPageFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Returns a string back to MainPageActivity.
+     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(String theString);
     }

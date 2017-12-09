@@ -1,6 +1,5 @@
 package group12.tcss450.uw.edu.appproject.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,22 +23,34 @@ import group12.tcss450.uw.edu.appproject.util.SimilarityAdapter;
 import static android.content.ContentValues.TAG;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment that allows a user to enter terms into a search bar.
+ * Entered strings are saved and used to call the API.
  */
 public class IngredientSearchFragment extends Fragment implements View.OnClickListener{
-
+    /** Listener to send back user data. */
     private OnFragmentInteractionListener mListener;
 
+    /** The list of ingredients enter. */
     private ArrayList<String> mIngredientList;
+
+    /** Adapter for the list view. */
     private ArrayAdapter<String> mAdapter;
+
+    /** The search bar where text is entered. */
     private AutoCompleteTextView mIngredientSearchBar;
+
+    /** The list view to display ingredients. */
     private ListView mListView;
 
-    public IngredientSearchFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public IngredientSearchFragment() { }
 
-
+    /**
+     * Sets up fragment behavior.
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +59,13 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
                 R.layout.recipe_ingredient, mIngredientList);
     }
 
+    /**
+     * Sets up fragment for displaying the fragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return the created view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)  {
@@ -141,6 +159,10 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    /**
+     * Instantiation of variables when fragment is attached.
+     * @param context Context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -152,12 +174,19 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    /**
+     * Cleanup when fragment is detached.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Adds functionality to buttons.
+     * @param view the view of the fragment.
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -175,14 +204,7 @@ public class IngredientSearchFragment extends Fragment implements View.OnClickLi
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Returns back a list of entered search ingredients..
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(ArrayList<String> theIngredientList);
