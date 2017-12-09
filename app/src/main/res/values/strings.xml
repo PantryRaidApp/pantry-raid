@@ -19,7 +19,7 @@
     <string name="forgot_password_no_email">Put in a valid email before attempting to recover
         information.</string>
     <string name="password_error">Username/Password incorrect. Please try again</string>
-
+    <string name="logout_option">Logout</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="forgot_password_button">Forgot password?</string>
