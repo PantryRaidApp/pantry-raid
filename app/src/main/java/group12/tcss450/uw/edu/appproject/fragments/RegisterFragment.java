@@ -19,25 +19,29 @@ import group12.tcss450.uw.edu.appproject.activities.MainActivity;
 import group12.tcss450.uw.edu.appproject.R;
 
 /**
- * A simple {@link Fragment} subclass.
  * Provides functionality for a user to create an account.
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
-
+    /** Listener to send back user data. */
     private OnFragmentInteractionListener mListener;
+
+    /** Input for email, password, and re-entered password. */
     private EditText email, password, passwordreenter;
+
+    /** Database object used to edit user data. */
     private DBManager database;
+
+    /** Display area for error messages. */
     private TextView errorMessage;
 
+    /** Regex for well formed emails. */
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9.%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     /**
      * Required constructor.
      */
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
+    public RegisterFragment() { }
 
     /**
      * Method to validate an email
@@ -49,6 +53,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         return matcher.find();
     }
 
+    /**
+     * Sets up fragment for displaying the fragment.
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return the created view.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +74,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         return v;
     }
 
+    /**
+     * Adds functionality to buttons.
+     * @param view the view of the fragment.
+     */
     @Override
     public void onClick(View view) {
         boolean exists = false;
@@ -97,6 +112,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Instantiation of variables when fragment is attached.
+     * @param context Context.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -108,12 +127,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Cleanup when fragment is detached.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Returns a string back to MainPageActivity.
+     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(String theString);
     }
