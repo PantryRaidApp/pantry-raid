@@ -11,11 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.DataInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import group12.tcss450.uw.edu.appproject.R;
 import group12.tcss450.uw.edu.appproject.activities.MainActivity;
@@ -35,6 +33,8 @@ public class FavoritesFragment extends Fragment{
 
     /** The list of favorites displayed. */
     private String[] mFavoritesUrls;
+
+    private ArrayList<String> mFavorites;
 
     /** List view where the favorites are displayed. */
     private ListView mListView;
@@ -61,8 +61,10 @@ public class FavoritesFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFavoritesUrls = MainActivity.getAllFavorites();
-        mArrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                R.layout.recipe_result, mFavoritesUrls);
+        mFavorites = new ArrayList<>(Arrays.asList(mFavoritesUrls));
+
+        mArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                R.layout.recipe_result, mFavorites);
     }
 
     /**
@@ -116,6 +118,32 @@ public class FavoritesFragment extends Fragment{
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        Log.d("FavoritesFragment", "onResume:" + Arrays.toString(mFavoritesUrls));
+        super.onResume();
+        mFavoritesUrls = MainActivity.getAllFavorites();
+
+        for (String s: mFavoritesUrls) {
+            if (!mFavorites.contains(s)) {
+                mFavorites.add(s);
+            }
+        }
+
+        if (mFavoritesUrls.length != mFavorites.size()) {
+            Iterator itr = mFavorites.iterator();
+            while (itr.hasNext()) {
+                String s = (String) itr.next();
+                if (!Arrays.asList(mFavoritesUrls).contains(s)) {
+                    itr.remove();
+                }
+            }
+        }
+
+
+        Log.d("FavoritesFragment", "new list data" + Arrays.toString(mFavoritesUrls));
+        mArrayAdapter.notifyDataSetChanged();
+    }
     /**
      * Sends back the url of the selected favorites to open a WebView.
      *
@@ -127,4 +155,5 @@ public class FavoritesFragment extends Fragment{
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String theString);
     }
+
 }
